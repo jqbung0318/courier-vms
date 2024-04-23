@@ -1,0 +1,41 @@
+volumes:
+  local_postgres_data: {}
+
+networks:
+  courier-vms-network:
+
+
+services:
+  postgres:
+    image: courier-vms-db
+    container_name: courier-vms-db
+    build:
+      context: .
+      dockerfile: compose/postgres/Dockerfile
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - ./snapshots:/backups:rw
+    networks:
+      - courier-vms-network
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.envs/local/.postgres
+
+  backend:
+    depends_on:
+      - postgres
+    image: courier-vms-backend
+    container_name: courier-vms-backend
+    build:
+      context: .
+      dockerfile: compose/backend/Dockerfile
+      target: DEVELOPMENT
+    command: npm run start:dev
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - courier-vms-network
+    ports:
+      - "3001:3001"

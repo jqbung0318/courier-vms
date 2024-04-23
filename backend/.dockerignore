@@ -1,0 +1,9 @@
+/node_modules
+/dist
+
+# previously commented to reduce the footprint
+# but this will screw up docker-compose build
+# /compose 
+
+# Allow directories
+!/node_modules/.prisma
