@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { VehicleBrand } from '@prisma/client';
+import { Model } from 'src/model/entities/model.entity';
 
 @ObjectType()
 export class Brand implements VehicleBrand {
@@ -15,4 +16,7 @@ export class Brand implements VehicleBrand {
 
   @Field(() => String, { description: 'Vehicle brand name' })
   name: string;
+
+  @Field(() => [Model], { description: "Vehicle models" })
+  models: Model[]
 }

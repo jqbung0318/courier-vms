@@ -2,6 +2,31 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Model {
+  """Item ID"""
+  id: Int!
+
+  """Item creation date"""
+  createdAt: DateTime!
+
+  """Item last updated date"""
+  updatedAt: DateTime!
+
+  """Vehicle model name"""
+  name: String!
+
+  """Vehicle brand"""
+  brand: Brand!
+
+  """Vehicle brand ID"""
+  vehicleBrandId: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Brand {
   """Item ID"""
   id: Int!
@@ -14,21 +39,24 @@ type Brand {
 
   """Vehicle brand name"""
   name: String!
+
+  """Vehicle models"""
+  models: [Model!]!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Query {
-  brand(name: String!): [Brand!]!
+  brand(id: Int!): Brand!
+  brands(name: String): [Brand!]!
+  models(name: String): [Model!]!
 }
 
 type Mutation {
   createBrand(createBrandInput: CreateBrandInput!): Brand!
   updateBrand(updateBrandInput: UpdateBrandInput!): Brand!
   removeBrand(id: Int!): Brand!
+  createModel(createModelInput: CreateModelInput!): Model!
+  updateModel(updateModelInput: UpdateModelInput!): Model!
+  removeModel(id: Int!): Model!
 }
 
 input CreateBrandInput {
@@ -38,5 +66,19 @@ input CreateBrandInput {
 
 input UpdateBrandInput {
   name: String!
+  id: Int!
+}
+
+input CreateModelInput {
+  """Vehicle model name"""
+  name: String!
+
+  """Vehicle brand ID"""
+  vehicleBrandId: Int!
+}
+
+input UpdateModelInput {
+  name: String!
+  vehicleBrandId: Int!
   id: Int!
 }
