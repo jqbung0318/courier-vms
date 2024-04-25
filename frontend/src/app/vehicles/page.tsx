@@ -49,7 +49,7 @@ const vehicles = [
         brand: "Toyota",
         model: "Vios",
         vehicleType: "LORRY",
-        status: "ONLINE",
+        status: "OFFLINE",
     },
     {
         plateNo: "GMK8268",
