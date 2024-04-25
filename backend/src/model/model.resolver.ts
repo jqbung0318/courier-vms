@@ -26,7 +26,7 @@ export class ModelResolver {
   @ResolveField('brand', () => Brand)
   async brand(@Parent() model: Model) {
     const { vehicleBrandId } = model
-    return this.brandService.findOne(vehicleBrandId)
+    return this.brandService.getByBrandId(vehicleBrandId)
   }
 
   @Mutation(() => Model)

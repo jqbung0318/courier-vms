@@ -44,10 +44,53 @@ type Brand {
   models: [Model!]!
 }
 
+type VehicleObjectType {
+  """Item ID"""
+  id: Int!
+
+  """Item creation date"""
+  createdAt: DateTime!
+
+  """Item last updated date"""
+  updatedAt: DateTime!
+
+  """Vehicle Plate"""
+  plateNo: String!
+
+  """Vehicle Nickname"""
+  nickname: String
+  type: VehicleType!
+
+  """Vehicle brand ID"""
+  vehicleBrandId: Int!
+
+  """Vehicle model ID"""
+  vehicleModelId: Int!
+  status: VehicleStatus
+  brand: Brand!
+  model: Model!
+}
+
+enum VehicleType {
+  MOTORCYCLE
+  CARS
+  FOURWHEELS
+  VAN
+  LORRY
+}
+
+enum VehicleStatus {
+  ONLINE
+  OFFLINE
+  MAINTENANCE
+}
+
 type Query {
   brand(id: Int!): Brand!
   brands(name: String): [Brand!]!
   models(name: String): [Model!]!
+  vehicles(name: String): [VehicleObjectType!]!
+  vehicle(id: Int!): VehicleObjectType!
 }
 
 type Mutation {
@@ -57,6 +100,9 @@ type Mutation {
   createModel(createModelInput: CreateModelInput!): Model!
   updateModel(updateModelInput: UpdateModelInput!): Model!
   removeModel(id: Int!): Model!
+  createVehicle(createVehicleInput: CreateVehicleInput!): VehicleObjectType!
+  updateVehicle(updateVehicleInput: UpdateVehicleInput!): VehicleObjectType!
+  removeVehicle(id: Int!): VehicleObjectType!
 }
 
 input CreateBrandInput {
@@ -80,5 +126,42 @@ input CreateModelInput {
 input UpdateModelInput {
   name: String!
   vehicleBrandId: Int!
+  id: Int!
+}
+
+input CreateVehicleInput {
+  """Vehicle plate number"""
+  plateNo: String!
+
+  """Vehicle nickname"""
+  nickname: String
+
+  """Vehicle type"""
+  type: VehicleType!
+
+  """Vehicl brand ID"""
+  vehicleBrandId: Int!
+
+  """Vehicl model ID"""
+  vehicleModelId: Int!
+  status: VehicleStatus!
+}
+
+input UpdateVehicleInput {
+  """Vehicle plate number"""
+  plateNo: String!
+
+  """Vehicle nickname"""
+  nickname: String
+
+  """Vehicle type"""
+  type: VehicleType!
+
+  """Vehicl brand ID"""
+  vehicleBrandId: Int!
+
+  """Vehicl model ID"""
+  vehicleModelId: Int!
+  status: VehicleStatus!
   id: Int!
 }

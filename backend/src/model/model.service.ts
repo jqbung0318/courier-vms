@@ -30,7 +30,13 @@ export class ModelService {
     return this.prisma.vehicleModel.findMany(query)
   }
 
-  async findByBrandId(id: number): Promise<VehicleModel[] | null> {
+  async getByModelId(id: number): Promise<VehicleModel | null> {
+    return this.prisma.vehicleModel.findUnique({
+      where: { id }
+    })
+  }
+
+  async getByBrandId(id: number): Promise<VehicleModel[] | null> {
     return this.prisma.vehicleModel.findMany({
       where: { vehicleBrandId: id }
     })

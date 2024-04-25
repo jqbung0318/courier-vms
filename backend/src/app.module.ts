@@ -9,6 +9,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ModelModule } from './model/model.module';
+import { VehicleModule } from './vehicle/vehicle.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { ModelModule } from './model/model.module';
     }),
     PrismaModule,
     BrandModule,
-    ModelModule
+    ModelModule,
+    VehicleModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

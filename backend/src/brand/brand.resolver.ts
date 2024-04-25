@@ -20,18 +20,18 @@ export class BrandResolver {
 
   @Query(() => Brand, { name: 'brand' })
   findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.brandService.findOne(id)
+    return this.brandService.getByBrandId(id)
   }
 
   @Query(() => [Brand], { name: 'brands' })
   findAll(@Args('name', { type: () => String, nullable: true }) name?: string) {
-    return this.brandService.findAll(name);
+    return this.brandService.find(name);
   }
 
   @ResolveField('models', () => [Model])
   async models(@Parent() brand: Brand) {
     const { id } = brand
-    return this.modelService.findByBrandId(id)
+    return this.modelService.getByBrandId(id)
   }
 
 

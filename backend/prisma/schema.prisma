@@ -45,7 +45,8 @@ model Vehicle {
   vehicleBrandId     Int
   vehicleModelId     Int
   maintenanceRecords VehicleMaintenaceRecord[]
-  online             Boolean                   @default(true)
+  status             VehicleStatus             @default(ONLINE)
+  // active             Boolean                   @default(true)
 }
 
 model VehicleMaintenaceRecord {
@@ -65,4 +66,10 @@ enum VehicleType {
   FOURWHEELS
   VAN
   LORRY
+}
+
+enum VehicleStatus {
+  ONLINE
+  OFFLINE
+  MAINTENANCE
 }

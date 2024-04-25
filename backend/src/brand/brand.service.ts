@@ -18,13 +18,13 @@ export class BrandService {
     return brand
   }
 
-  async findOne(
+  async getByBrandId(
     id: number
   ): Promise<VehicleBrand | null> {
     return this.prisma.vehicleBrand.findUnique({ where: { id } })
   }
 
-  async findAll(
+  async find(
     searchString?: string,
   ): Promise<VehicleBrand[] | null> {
     const query = searchString === null ? null : {
