@@ -1,0 +1,5 @@
+/node_modules
+/.next
+
+# Allow directories
+# !/node_modules/.prisma

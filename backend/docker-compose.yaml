@@ -3,7 +3,7 @@ volumes:
 
 networks:
   courier-vms-network:
-
+    name: courier-vms-network
 
 services:
   postgres:

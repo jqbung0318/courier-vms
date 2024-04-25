@@ -1,0 +1,19 @@
+networks:
+  courier-vms-network:
+    external: true
+
+services:
+  frontend:
+    image: courier-vms-frontend
+    container_name: courier-vms-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - courier-vms-network
+    ports:
+      - "3000:3000"
