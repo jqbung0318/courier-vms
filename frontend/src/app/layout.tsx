@@ -3,6 +3,8 @@ import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import NavigationBar from "@/components/nav";
+import { Toaster } from "@/components/ui/toaster";
 
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -28,7 +30,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
+            <NavigationBar />
+            <div className="flex flex-col">
+              {children}
+            </div>
+          </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

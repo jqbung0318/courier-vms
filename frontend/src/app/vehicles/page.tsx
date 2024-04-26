@@ -1,6 +1,7 @@
 import Header from "@/components/header";
-import NavigationBar from "@/components/nav";
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { PlusIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 const vehicles = [
     {
@@ -63,10 +64,20 @@ const vehicles = [
 
 export default function Vehicles() {
     return (
-        <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
-            <NavigationBar />
-            <div className="flex flex-col">
-                <Header title="Vehicles" />
+        <div>
+            <Header title="Vehicles" />
+
+            <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+
+                <Link
+                    key='create-vehicle'
+                    href='/vehicles/create'
+                    className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                >
+                    <PlusIcon className="w-6" />
+                    Create Vehicle
+                </Link>
+
                 <Table>
                     <TableCaption>Courier Vehicle List</TableCaption>
                     <TableHeader>
@@ -88,7 +99,7 @@ export default function Vehicles() {
                         ))}
                     </TableBody>
                 </Table>
-            </div>
+            </main>
         </div>
     )
 }
