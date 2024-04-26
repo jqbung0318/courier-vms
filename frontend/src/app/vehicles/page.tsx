@@ -1,104 +1,87 @@
 import Header from "@/components/header";
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { PlusIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
+import { Vehicle, columns } from "../../components/ui/vehicles/columns";
+import { DataTable } from "../../components/ui/vehicles/data-table";
 
-const vehicles = [
-    {
-        plateNo: "AMK8268",
-        nickname: "Paid",
-        brand: "Honda",
-        model: "Jazz",
-        vehicleType: "CAR",
-        status: "ONLINE",
-    },
-    {
-        plateNo: "BMK8268",
-        nickname: "Pending",
-        brand: "Hyundai",
-        model: "Pruz",
-        vehicleType: "CAR",
-        status: "OFFLINE",
-    },
-    {
-        plateNo: "CMK8268",
-        nickname: "Unpaid",
-        brand: "Honda",
-        model: "Star",
-        vehicleType: "MOTORCYCLE",
-        status: "ONLINE",
-    },
-    {
-        plateNo: "DMK8268",
-        nickname: "Paid",
-        brand: "Hyundai",
-        model: "Ioniq",
-        vehicleType: "FOURWHEELS",
-        status: "ONLINE",
-    },
-    {
-        plateNo: "EMK8268",
-        nickname: "Paid",
-        brand: "Honda",
-        model: "BHR",
-        vehicleType: "VAN",
-        status: "MAINTENANCE",
-    },
-    {
-        plateNo: "FMK8268",
-        nickname: "Pending",
-        brand: "Toyota",
-        model: "Vios",
-        vehicleType: "LORRY",
-        status: "OFFLINE",
-    },
-    {
-        plateNo: "GMK8268",
-        nickname: "Unpaid",
-        brand: "Toyota",
-        model: "Camry",
-        vehicleType: "CAR",
-        status: "MAINTENANCE",
-    },
-]
+async function getData(): Promise<Vehicle[]> {
+    // TODO: API
+    return [
+        {
+            id: 1,
+            plateNo: "AMK8268",
+            nickname: "AMK8268 - Wangsa Maju",
+            brand: "Honda",
+            model: "Jazz",
+            vehicleType: "CAR",
+            status: "ONLINE",
+        },
+        {
+            id: 2,
+            plateNo: "BMK8268",
+            nickname: "BMK8268 - Dengkil",
+            brand: "Hyundai",
+            model: "Pruz",
+            vehicleType: "CAR",
+            status: "OFFLINE",
+        },
+        {
+            id: 3,
+            plateNo: "CMK8268",
+            nickname: "CMK8268 - - Wangsa Maju",
+            brand: "Honda",
+            model: "Star",
+            vehicleType: "MOTORCYCLE",
+            status: "ONLINE",
+        },
+        {
+            id: 4,
+            plateNo: "DMK8268",
+            nickname: "DMK8268 - Kepong",
+            brand: "Hyundai",
+            model: "Ioniq",
+            vehicleType: "FOURWHEELS",
+            status: "ONLINE",
+        },
+        {
+            id: 5,
+            plateNo: "EMK8268",
+            nickname: "EMK8268 - Dengkil",
+            brand: "Honda",
+            model: "BHR",
+            vehicleType: "VAN",
+            status: "MAINTENANCE",
+        },
+        {
+            id: 6,
+            plateNo: "FMK8268",
+            nickname: "FMK8268 - Kepong",
+            brand: "Toyota",
+            model: "Vios",
+            vehicleType: "LORRY",
+            status: "OFFLINE",
+        },
+        {
+            id: 7,
+            plateNo: "GMK8268",
+            nickname: "GMK8268 - Wangsa Maju",
+            brand: "Toyota",
+            model: "Camry",
+            vehicleType: "CAR",
+            status: "MAINTENANCE",
+        },
+    ]
+}
 
-export default function Vehicles() {
+export default async function Vehicles() {
+    const data = await getData()
+
     return (
         <div>
             <Header title="Vehicles" />
 
             <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-
-                <Link
-                    key='create-vehicle'
-                    href='/vehicles/create'
-                    className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                >
-                    <PlusIcon className="w-6" />
-                    Create Vehicle
-                </Link>
-
-                <Table>
-                    <TableCaption>Courier Vehicle List</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[100px]">Plate Number</TableHead>
-                            <TableHead>Nickname</TableHead>
-                            <TableHead>Vehicle Type</TableHead>
-                            <TableHead>Status</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {vehicles.map((vehicle) => (
-                            <TableRow key={vehicle.plateNo}>
-                                <TableCell className="font-medium">{vehicle.plateNo}</TableCell>
-                                <TableCell>{vehicle.nickname}</TableCell>
-                                <TableCell>{vehicle.vehicleType}</TableCell>
-                                <TableCell>{vehicle.status}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                <div className="container mx-auto py-10">
+                    <DataTable columns={columns} data={data} />
+                </div>
             </main>
         </div>
     )

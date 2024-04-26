@@ -2,10 +2,12 @@ export type Vehicle = {
     id: number;
     plateNo: string;
     nickname: string;
-    type: 'Motorcycle' | 'Car' | '4-Wheels' | 'Van' | 'Lorry';
+    type: VehicleType;
+    // type: 'MOTORCYCLE' | 'CAR' | 'FOURWHEELS' | 'VAN' | 'LORRY';
     vehicleBrandId: number;
     vehicleModelId: number;
-    status: 'online' | 'offline' | 'maintenance';
+    status: VehicleStatus
+    // status: 'ONLINE' | 'OFFLINE' | 'MAINTENANCE';
 }
 
 export type VehicleBrandsField = {
@@ -16,4 +18,18 @@ export type VehicleBrandsField = {
 export type VehicleModelsField = {
     id: number;
     name: string;
+}
+
+export enum VehicleStatus {
+    'ONLINE' = "online",
+    'OFFLINE' = "offline",
+    'MAINTENANCE' = "maintenance"
+}
+
+export enum VehicleType {
+    'MOTORCYCLE' = "Motorcycle",
+    'CAR' = "Car",
+    'FOURWHEELS' = "4-Wheels",
+    'VAN' = "Van",
+    'LORRY' = "Lorry"
 }

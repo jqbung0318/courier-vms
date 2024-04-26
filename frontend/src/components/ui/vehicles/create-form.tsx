@@ -10,6 +10,7 @@ import { VehicleBrandsField, VehicleModelsField } from '@/lib/definitions';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from '../use-toast';
 import { RadioGroup, RadioGroupItem } from '../radio-group';
+import { useRouter } from 'next/navigation';
 
 
 const VehicleFormSchema = z.object({
@@ -34,10 +35,14 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
             status: 'online'
         }
     })
+    const router = useRouter()
 
     function onSubmit(values: z.infer<typeof CreateVehicleFormSchema>) {
         // console.log(values);
-        toast({
+
+        router.push("/vehicles")
+
+        return toast({
             title: "Create vehicle submitted:",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">

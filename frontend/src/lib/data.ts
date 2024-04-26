@@ -1,3 +1,51 @@
+import { CircleIcon, DotIcon, SlashIcon } from "@radix-ui/react-icons";
+
+export const vehicleStatuses = [
+    {
+        value: "ONLINE",
+        label: "online",
+        icon: DotIcon
+    },
+    {
+        value: "OFFLINE",
+        label: "offline",
+        icon: CircleIcon
+    },
+    {
+        value: "MAINTENANCE",
+        label: "maintenance",
+        icon: SlashIcon
+    }
+]
+
+export const vehicleTypes = [
+    {
+        value: "MOTORCYCLE",
+        label: "Motorcycle",
+        icon: DotIcon
+    },
+    {
+        value: "CAR",
+        label: "Car",
+        icon: DotIcon
+    },
+    {
+        value: "FOURWHEELS",
+        label: "4-Wheels",
+        icon: DotIcon
+    },
+    {
+        value: "VAN",
+        label: "van",
+        icon: DotIcon
+    },
+    {
+        value: "LORRY",
+        label: "Lorry",
+        icon: DotIcon
+    },
+]
+
 export async function fetchVehicleBrands() {
     try {
         return [
