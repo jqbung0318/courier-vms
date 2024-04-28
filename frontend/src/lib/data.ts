@@ -1,71 +1,81 @@
 import { CircleIcon, DotIcon, SlashIcon } from "@radix-ui/react-icons";
+import { Vehicle } from "./definitions";
+import { vehicleBrands, vehicleModels, vehicles } from "./seed";
 
+// used in data table column for filters
 export const vehicleStatuses = [
     {
-        value: "ONLINE",
+        value: "online",
         label: "online",
         icon: DotIcon
     },
     {
-        value: "OFFLINE",
+        value: "offline",
         label: "offline",
         icon: CircleIcon
     },
     {
-        value: "MAINTENANCE",
+        value: "maintenance",
         label: "maintenance",
         icon: SlashIcon
     }
 ]
 
+// used in data table column for filters
 export const vehicleTypes = [
     {
-        value: "MOTORCYCLE",
+        value: "Motorcycle",
         label: "Motorcycle",
         icon: DotIcon
     },
     {
-        value: "CAR",
+        value: "Car",
         label: "Car",
         icon: DotIcon
     },
     {
-        value: "FOURWHEELS",
-        label: "4-Wheels",
+        value: "Four Wheels",
+        label: "Four Wheels",
         icon: DotIcon
     },
     {
-        value: "VAN",
-        label: "van",
+        value: "Van",
+        label: "Van",
         icon: DotIcon
     },
     {
-        value: "LORRY",
+        value: "Lorry",
         label: "Lorry",
         icon: DotIcon
     },
 ]
 
+export async function fetchVehicleById(id: string) {
+    try {
+        return vehicles.find(v => v.id.toString() === id)
+    } catch (err) {
+        console.error('GraphQL Error', err);
+        throw new Error('Failed to fetch all vehicle brands');
+    }
+}
+
+export async function fetchVehicles(): Promise<Vehicle[]> {
+    // TODO: API
+    return vehicles
+}
+
+export async function resolveBrandModel(vehicles: Vehicle[]): Promise<Vehicle[]> {
+    return vehicles.map(v => {
+        v.brand = vehicleBrands.find(brand => brand.id === v.vehicleBrandId)?.name
+        v.model = vehicleModels.find(model => model.id === v.vehicleModelId)?.name
+
+        return v
+    })
+}
+
 export async function fetchVehicleBrands() {
     try {
-        return [
-            {
-                id: 1,
-                name: 'Hyundai'
-            },
-            {
-                id: 2,
-                name: 'Honda'
-            },
-            {
-                id: 3,
-                name: 'Toyota'
-            },
-            {
-                id: 4,
-                name: 'Kia'
-            },
-        ]
+        return vehicleBrands
     } catch (err) {
         console.error('GraphQL Error', err);
         throw new Error('Failed to fetch all vehicle brands');
@@ -74,24 +84,7 @@ export async function fetchVehicleBrands() {
 
 export async function fetchVehicleModels() {
     try {
-        return [
-            {
-                id: 1,
-                name: 'Civic'
-            },
-            {
-                id: 2,
-                name: 'Vios'
-            },
-            {
-                id: 3,
-                name: 'Optima'
-            },
-            {
-                id: 4,
-                name: 'Ioniq'
-            },
-        ]
+        return vehicleModels
     } catch (err) {
         console.error('GraphQL Error', err);
         throw new Error('Failed to fetch all vehicle models');

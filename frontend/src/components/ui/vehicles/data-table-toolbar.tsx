@@ -54,8 +54,8 @@ export function VehicleDataTableToolbar<TData>({
 
                 <div className="h-8 mx-2">
                     <Select
-                        onValueChange={event => table.getColumn("vehicleType")?.setFilterValue(event)}
-                        value={(table.getColumn("vehicleType")?.getFilterValue() as string) ?? ""}
+                        onValueChange={event => table.getColumn("type")?.setFilterValue(event)}
+                        value={(table.getColumn("type")?.getFilterValue() as string) ?? ""}
                     >
                         <SelectTrigger>
                             <SelectValue placeholder="Vehicle Type" />

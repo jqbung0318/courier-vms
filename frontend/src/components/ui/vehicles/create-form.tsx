@@ -6,33 +6,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { VehicleBrandsField, VehicleModelsField } from '@/lib/definitions';
+import { VehicleBrandsField, VehicleModelsField, VehicleStatus, VehicleType } from '@/lib/definitions';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from '../use-toast';
 import { RadioGroup, RadioGroupItem } from '../radio-group';
 import { useRouter } from 'next/navigation';
+import { CreateVehicleFormSchema } from '@/lib/schema';
 
-
-const VehicleFormSchema = z.object({
-    id: z.string(),
-    plateNo: z.string(),
-    nickname: z.string(),
-    type: z.enum(['Motorcycle', 'Car', '4-Wheels', 'Van', 'Lorry']),
-    vehicleBrandId: z.string(),
-    vehicleModelId: z.string(),
-    status: z.enum(['online', 'offline', 'maintenance']),
-    createdAt: z.string(),
-    updatedAt: z.string(),
-})
-
-const CreateVehicleFormSchema = VehicleFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
 
 export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsField[], models: VehicleModelsField[] }) {
     const form = useForm<z.infer<typeof CreateVehicleFormSchema>>({
         resolver: zodResolver(CreateVehicleFormSchema),
         defaultValues: {
-            type: 'Car',
-            status: 'online'
+            type: VehicleType.CAR,
+            status: VehicleStatus.ONLINE,
         }
     })
     const router = useRouter()
@@ -63,7 +50,7 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Brand</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a vehicle brand" />
@@ -88,7 +75,7 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Model</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a vehicle model" />
@@ -147,7 +134,7 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Vehicle Type</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a vehicle type" />

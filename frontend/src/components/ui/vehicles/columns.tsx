@@ -2,20 +2,22 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { Button } from "../button"
-import { CaretSortIcon } from "@radix-ui/react-icons"
+import { CaretSortIcon, Pencil1Icon } from "@radix-ui/react-icons"
 import { Checkbox } from "../checkbox"
+import Link from "next/link"
+import { Vehicle } from "@/lib/definitions"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Vehicle = {
-    id: number
-    plateNo: string
-    nickname: string
-    brand: string
-    model: string
-    vehicleType: "MOTORCYCLE" | "CAR" | "FOURWHEELS" | "VAN" | "LORRY"
-    status: "ONLINE" | "OFFLINE" | "MAINTENANCE"
-}
+// export type Vehicle = {
+//     id: number
+//     plateNo: string
+//     nickname: string
+//     brand: string
+//     model: string
+//     type: "MOTORCYCLE" | "CAR" | "FOURWHEELS" | "VAN" | "LORRY"
+//     status: "ONLINE" | "OFFLINE" | "MAINTENANCE"
+// }
 
 export const columns: ColumnDef<Vehicle>[] = [
     {
@@ -43,6 +45,10 @@ export const columns: ColumnDef<Vehicle>[] = [
         enableHiding: false,
     },
     {
+        accessorKey: "id",
+        header: "ID",
+    },
+    {
         accessorKey: "plateNo",
         header: ({ column }) => {
             return (
@@ -61,11 +67,24 @@ export const columns: ColumnDef<Vehicle>[] = [
         header: "Nickname",
     },
     {
-        accessorKey: "vehicleType",
+        accessorKey: "type",
         header: "Vehicle Type",
     },
     {
         accessorKey: "status",
         header: "Status"
     },
+    {
+        id: "actions",
+        // cell: ({ row }) => (<VehicleEditDialog row={row} />)
+        cell: ({ row }) => (
+            <Link
+                key=''
+                href={'/vehicles/' + row.getValue("id")}
+            >
+                <Pencil1Icon className="mr-2 h-4 w-4" />
+                <span className="sr-only">Edit</span>
+            </Link>
+        )
+    }
 ]
