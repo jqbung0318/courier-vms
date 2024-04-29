@@ -18,7 +18,20 @@ const VehicleFormSchema = z.object({
 const CreateVehicleFormSchema = VehicleFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
 const UpdateVehicleFormSchema = VehicleFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
 
+const MaintenanceRecordFormSchema = z.object({
+    id: z.number(),
+    vehicleId: z.number(),
+    scheduledAt: z.date(),
+    maintainedAt: z.date(),
+    mileage: z.number(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+})
+
+const CreateMaintenanceRecordFormSchema = MaintenanceRecordFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
+
 export {
     CreateVehicleFormSchema,
     UpdateVehicleFormSchema,
+    CreateMaintenanceRecordFormSchema,
 }
