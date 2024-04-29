@@ -90,7 +90,7 @@ export const columns: ColumnDef<VehicleMaintenanceRecord>[] = [
         id: "actions",
         cell: ({ row }) => (
             <Link
-                key=''
+                key={'edit-row-' + row.original.id}
                 href={'/maintenance/' + row.original.id}
             >
                 <Pencil1Icon className="mr-2 h-4 w-4" />

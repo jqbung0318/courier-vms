@@ -29,9 +29,12 @@ const MaintenanceRecordFormSchema = z.object({
 })
 
 const CreateMaintenanceRecordFormSchema = MaintenanceRecordFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
+const UpdateMaintenanceRecordFormSchema = MaintenanceRecordFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
+
 
 export {
     CreateVehicleFormSchema,
     UpdateVehicleFormSchema,
     CreateMaintenanceRecordFormSchema,
+    UpdateMaintenanceRecordFormSchema,
 }

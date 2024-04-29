@@ -91,6 +91,15 @@ export async function fetchVehicleModels() {
     }
 }
 
+export async function fetchMaintenanceRecordById(id: number): Promise<VehicleMaintenanceRecord | undefined> {
+    try {
+        return maintenanceRecords.find(r => r.id === id)
+    } catch (err) {
+        console.error('GraphQL Error', err);
+        throw new Error('Failed to fetch all vehicle brands');
+    }
+}
+
 export async function fetchMaintenanceRecords() {
     try {
         return maintenanceRecords

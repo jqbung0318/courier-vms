@@ -1,4 +1,4 @@
-import { Vehicle, VehicleMaintenanceReocrd, VehicleStatus, VehicleType } from "./definitions";
+import { Vehicle, VehicleMaintenanceRecord, VehicleStatus, VehicleType } from "./definitions";
 
 export const vehicleBrands = [
     {
@@ -116,7 +116,7 @@ export const vehicles: Vehicle[] = [
     }
 ]
 
-export const maintenanceRecords: VehicleMaintenanceReocrd[] = [
+export const maintenanceRecords: VehicleMaintenanceRecord[] = [
     {
         id: 1,
         vehicleId: 1,
