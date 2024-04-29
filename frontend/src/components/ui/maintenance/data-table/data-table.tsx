@@ -10,7 +10,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-
 import {
   Table,
   TableBody,
@@ -20,17 +19,19 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import * as React from "react"
-import { VehicleDataTableToolbar } from "./data-table-toolbar"
+import DataTableToolbar from "./data-table-toolbar"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export default function DataTable<TData, TValue>(
+  {
+    columns,
+    data,
+  }: DataTableProps<TData, TValue>,
+) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -55,7 +56,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <VehicleDataTableToolbar table={table} />
+      <DataTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

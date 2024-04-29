@@ -1,6 +1,6 @@
 import { Cross2Icon } from "@radix-ui/react-icons"
-import { Button } from "../button"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../dialog"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 export default function DeleteConfirmDialog() {
     return (

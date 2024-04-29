@@ -16,17 +16,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 export function UpdateVehicleForm({ vehicle, brands, models }: { vehicle: Vehicle, brands: VehicleBrandsField[], models: VehicleModelsField[] }) {
     const form = useForm<z.infer<typeof UpdateVehicleFormSchema>>({
         resolver: zodResolver(UpdateVehicleFormSchema),
-        defaultValues: {
-            plateNo: vehicle.plateNo,
-            nickname: vehicle.nickname,
-            vehicleBrandId: vehicle.vehicleBrandId,
-            vehicleModelId: vehicle.vehicleModelId,
-            status: vehicle.status,
-            type: vehicle.type,
-        }
+        defaultValues: { ...vehicle }
     })
     const router = useRouter()
-    const body = UpdateVehicleFormSchema.parse(vehicle)
 
     function onSubmit(values: z.infer<typeof UpdateVehicleFormSchema>) {
         router.push("/vehicles")

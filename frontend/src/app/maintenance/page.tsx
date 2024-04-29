@@ -1,29 +1,27 @@
 import Header from "@/components/header"
 import NavigationBar from "@/components/nav"
+import { columns } from "@/components/ui/maintenance/data-table/columns"
+import DataTable from "@/components/ui/maintenance/data-table/data-table"
 import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
+import { fetchMaintenanceRecords, resolveVehicle } from "@/lib/data"
 
-const maintenanceRecords = [
-    {
-        plateNo: "AMK8268",
-        scheduledAt: "26/4/2024",
-        maintainedAt: "26/4/2024",
-        mileage: 150000
-    },
-    {
-        plateNo: "AMK8268",
-        scheduledAt: "26/4/2024",
-        maintainedAt: "26/4/2024",
-        mileage: 150000
-    },
-]
 
-export default function MaintenanceRecords() {
+export default async function MaintenanceRecords() {
+    const data = await fetchMaintenanceRecords()
+        .then(records => resolveVehicle(records))
+
     return (
         <div>
-            <Header title="Vehicles" />
+            <Header title="Maintenance Records" />
 
             <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-                <Table>
+
+                <div className="container mx-auto py-10">
+                    <DataTable columns={columns} data={data} />
+                </div>
+
+
+                {/* <Table>
                     <TableCaption>Courier Vehicle List</TableCaption>
                     <TableHeader>
                         <TableRow>
@@ -43,7 +41,7 @@ export default function MaintenanceRecords() {
                             </TableRow>
                         ))}
                     </TableBody>
-                </Table>
+                </Table> */}
             </main>
         </div>
     )

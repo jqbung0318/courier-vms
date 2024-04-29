@@ -1,9 +1,9 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Button } from "../button"
+import { Button } from "@/components/ui/button"
 import { CaretSortIcon, Pencil1Icon } from "@radix-ui/react-icons"
-import { Checkbox } from "../checkbox"
+import { Checkbox } from "@/components/ui/checkbox"
 import Link from "next/link"
 import { Vehicle } from "@/lib/definitions"
 
@@ -21,7 +21,7 @@ import { Vehicle } from "@/lib/definitions"
 
 export const columns: ColumnDef<Vehicle>[] = [
     {
-        id: "selecct",
+        id: "select",
         header: ({ table }) => (
             <Checkbox
                 checked={
@@ -43,10 +43,6 @@ export const columns: ColumnDef<Vehicle>[] = [
         ),
         enableSorting: false,
         enableHiding: false,
-    },
-    {
-        accessorKey: "id",
-        header: "ID",
     },
     {
         accessorKey: "plateNo",
@@ -76,11 +72,10 @@ export const columns: ColumnDef<Vehicle>[] = [
     },
     {
         id: "actions",
-        // cell: ({ row }) => (<VehicleEditDialog row={row} />)
         cell: ({ row }) => (
             <Link
                 key=''
-                href={'/vehicles/' + row.getValue("id")}
+                href={'/vehicles/' + row.original.id}
             >
                 <Pencil1Icon className="mr-2 h-4 w-4" />
                 <span className="sr-only">Edit</span>

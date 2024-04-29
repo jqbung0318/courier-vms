@@ -10,6 +10,15 @@ export type Vehicle = {
     status: VehicleStatus;
 }
 
+export type VehicleMaintenanceRecord = {
+    id: number;
+    vehicleId: number;
+    plateNo?: string;
+    scheduledAt: Date;
+    maintainedAt?: Date;
+    mileage?: number;
+}
+
 export type VehicleBrandsField = {
     id: number;
     name: string;

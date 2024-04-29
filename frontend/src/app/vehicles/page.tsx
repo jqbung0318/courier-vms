@@ -1,9 +1,7 @@
 import Header from "@/components/header";
-import { columns } from "../../components/ui/vehicles/columns";
-import { DataTable } from "../../components/ui/vehicles/data-table";
+import { columns } from "@/components/ui/vehicles/data-table/columns";
+import DataTable from "@/components/ui/vehicles/data-table/data-table";
 import { fetchVehicles, resolveBrandModel } from "@/lib/data";
-
-
 
 export default async function Vehicles() {
     const data = await fetchVehicles()

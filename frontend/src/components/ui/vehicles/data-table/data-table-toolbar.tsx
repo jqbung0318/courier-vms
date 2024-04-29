@@ -1,9 +1,9 @@
 import { Table } from "@tanstack/react-table";
-import { Input } from "../input";
+import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
-import { Button } from "../button";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../select";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../../select";
 import { vehicleStatuses, vehicleTypes } from "@/lib/data";
 import DeleteConfirmDialog from "./dialog-delete";
 
@@ -12,7 +12,7 @@ interface DataTableToolbarProps<TData> {
 }
 
 
-export function VehicleDataTableToolbar<TData>({
+export default function DataTableToolbar<TData>({
     table,
 }: DataTableToolbarProps<TData>) {
     const isFiltered = table.getState().columnFilters.length > 0
@@ -92,13 +92,6 @@ export function VehicleDataTableToolbar<TData>({
             <div className="lg:flex">
                 {
                     rowSelected && (
-                        // <Button
-                        //     variant="destructive"
-                        //     className="h-10 px-2 lg:px-3"
-                        // >
-                        //     <Cross2Icon className="ml-2 h-4 w-4" />
-                        //     Delete
-                        // </Button>
                         <DeleteConfirmDialog />
                     )
                 }

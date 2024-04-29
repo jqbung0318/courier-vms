@@ -1,4 +1,4 @@
-import { Vehicle, VehicleStatus, VehicleType } from "./definitions";
+import { Vehicle, VehicleMaintenanceReocrd, VehicleStatus, VehicleType } from "./definitions";
 
 export const vehicleBrands = [
     {
@@ -114,4 +114,57 @@ export const vehicles: Vehicle[] = [
         type: VehicleType.CAR,
         status: VehicleStatus.MAINTENANCE,
     }
+]
+
+export const maintenanceRecords: VehicleMaintenanceReocrd[] = [
+    {
+        id: 1,
+        vehicleId: 1,
+        scheduledAt: new Date('2024-04-26T00:00:00Z'),
+        maintainedAt: new Date('2024-04-28T10:20:30Z'),
+        mileage: 1000,
+    },
+    {
+        id: 2,
+        vehicleId: 1,
+        scheduledAt: new Date('2024-05-28T00:00:00Z'),
+        mileage: 1000,
+    },
+    {
+        id: 3,
+        vehicleId: 2,
+        scheduledAt: new Date('2024-04-24T00:00:00Z'),
+    },
+    {
+        id: 4,
+        vehicleId: 3,
+        scheduledAt: new Date('2024-04-24T00:00:00Z'),
+        maintainedAt: new Date('2024-04-26T10:20:30Z'),
+        mileage: 1000,
+    },
+    {
+        id: 5,
+        vehicleId: 3,
+        scheduledAt: new Date('2024-05-26T00:00:00Z'),
+    },
+    {
+        id: 6,
+        vehicleId: 4,
+        scheduledAt: new Date('2024-04-24T00:00:00Z'),
+    },
+    {
+        id: 7,
+        vehicleId: 5,
+        scheduledAt: new Date('2024-04-24T00:00:00Z'),
+    },
+    {
+        id: 8,
+        vehicleId: 6,
+        scheduledAt: new Date('2024-04-24T00:00:00Z'),
+    },
+    {
+        id: 9,
+        vehicleId: 7,
+        scheduledAt: new Date('2024-04-24T00:00:00Z'),
+    },
 ]

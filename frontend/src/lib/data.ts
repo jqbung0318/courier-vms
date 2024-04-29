@@ -1,6 +1,6 @@
 import { CircleIcon, DotIcon, SlashIcon } from "@radix-ui/react-icons";
-import { Vehicle } from "./definitions";
-import { vehicleBrands, vehicleModels, vehicles } from "./seed";
+import { Vehicle, VehicleMaintenanceRecord } from "./definitions";
+import { maintenanceRecords, vehicleBrands, vehicleModels, vehicles } from "./seed";
 
 // used in data table column for filters
 export const vehicleStatuses = [
@@ -89,4 +89,21 @@ export async function fetchVehicleModels() {
         console.error('GraphQL Error', err);
         throw new Error('Failed to fetch all vehicle models');
     }
+}
+
+export async function fetchMaintenanceRecords() {
+    try {
+        return maintenanceRecords
+    } catch (err) {
+        console.error('GraphQL Error', err);
+        throw new Error('Failed to fetch all vehicle models');
+    }
+}
+
+export async function resolveVehicle(records: VehicleMaintenanceRecord[]): Promise<VehicleMaintenanceRecord[]> {
+    return records.map(record => {
+        record.plateNo = vehicles.find(v => v.id === record.vehicleId)?.plateNo
+
+        return record
+    })
 }
