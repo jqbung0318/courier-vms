@@ -85,12 +85,41 @@ enum VehicleStatus {
   MAINTENANCE
 }
 
+type MaintenanceObjectType {
+  """Item ID"""
+  id: Int!
+
+  """Item creation date"""
+  createdAt: DateTime!
+
+  """Item last updated date"""
+  updatedAt: DateTime!
+
+  """Vehicle ID"""
+  vehicleId: Int!
+
+  """Item scheduled maintenance date"""
+  scheduledAt: DateTime!
+
+  """Item actual maintenance date"""
+  maintainedAt: DateTime
+
+  """Vehicle mileage in KM"""
+  mileage: Int
+
+  """Additional message in this maintenance"""
+  remarks: String
+  vehicle: VehicleObjectType!
+}
+
 type Query {
   brand(id: Int!): Brand!
   brands(name: String): [Brand!]!
   models(name: String): [Model!]!
   vehicles(name: String): [VehicleObjectType!]!
   vehicle(id: Int!): VehicleObjectType!
+  maintenances(name: String): [MaintenanceObjectType!]!
+  maintenance(id: Int!): MaintenanceObjectType!
 }
 
 type Mutation {
@@ -103,6 +132,9 @@ type Mutation {
   createVehicle(createVehicleInput: CreateVehicleInput!): VehicleObjectType!
   updateVehicle(updateVehicleInput: UpdateVehicleInput!): VehicleObjectType!
   removeVehicle(id: Int!): VehicleObjectType!
+  createMaintenance(createMaintenanceInput: CreateMaintenanceInput!): MaintenanceObjectType!
+  updateMaintenance(updateMaintenanceInput: UpdateMaintenanceInput!): MaintenanceObjectType!
+  removeMaintenance(id: Int!): MaintenanceObjectType!
 }
 
 input CreateBrandInput {
@@ -163,5 +195,40 @@ input UpdateVehicleInput {
   """Vehicl model ID"""
   vehicleModelId: Int!
   status: VehicleStatus!
+  id: Int!
+}
+
+input CreateMaintenanceInput {
+  """Vehicle ID"""
+  vehicleId: Int!
+
+  """Item scheduled maintenance date"""
+  scheduledAt: DateTime!
+
+  """Item actual maintenance date"""
+  maintainedAt: DateTime
+
+  """Vehicle mileage in KM"""
+  mileage: Int
+
+  """Additional message in this maintenance"""
+  remarks: String
+}
+
+input UpdateMaintenanceInput {
+  """Vehicle ID"""
+  vehicleId: Int
+
+  """Item scheduled maintenance date"""
+  scheduledAt: DateTime!
+
+  """Item actual maintenance date"""
+  maintainedAt: DateTime
+
+  """Vehicle mileage in KM"""
+  mileage: Int
+
+  """Additional message in this maintenance"""
+  remarks: String
   id: Int!
 }

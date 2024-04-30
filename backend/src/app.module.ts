@@ -10,6 +10,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ModelModule } from './model/model.module';
 import { VehicleModule } from './vehicle/vehicle.module';
+import { MaintenanceModule } from './maintenance/maintenance.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { VehicleModule } from './vehicle/vehicle.module';
     PrismaModule,
     BrandModule,
     ModelModule,
-    VehicleModule
+    VehicleModule,
+    MaintenanceModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
