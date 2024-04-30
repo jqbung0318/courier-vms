@@ -57,7 +57,8 @@ model VehicleMaintenaceRecord {
   vehicleId    Int
   scheduledAt  DateTime
   maintainedAt DateTime?
-  mileage      Int
+  mileage      Int?
+  remarks      String?
 }
 
 enum VehicleType {
