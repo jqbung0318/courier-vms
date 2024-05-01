@@ -1,36 +1,48 @@
+# Courier VMS Frontend
+
+*Currently in dev mode only*
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+This project is heavily used the frontend UI component like [shadcn/ui](https://ui.shadcn.com/) and the communication with backend is via GraphQL using ApolloClient.
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## How to Start Developing/Using?
+This project is developed with the backend together. Make sure that the backend service has started running before this.
+
+### Prerequisites
+- VMS Backend
+- Docker
+- Docker Compose
+- NPM
+
+```shell
+# grab the dependency by the "snapshot" in package-lock.json
+# this is to see most of the library linting in dev environment
+npm ci
+
+# build and start the service
+docker-compose build && docker-compose up
+
+# in case you need to remove the containers/services
+docker-compose down
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Once started, please visit [http://localhost:3000](http://localhost:3000) in your browser for the dashboard
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Files & Directories
+[/src](./src/) is where the frontend source code mainly sitted. This project also has files for containerisation like [docker-compose.yaml](./docker-compose.yaml) 
 
-## Learn More
+| Files/Directories | Description |
+| ----------------- | ----------- |
+| [/app](./src/app/) | NextJS web pages. Mainly rendered in server side. |
+| [/components](./src/components/) | Main folder for UI/React Components. Most element are client side rendered due to the utlised library. |
+| [/components/ui/[folder]](./src/components/ui/) | Components written based on each of the module/feature.  |
+| [/components/ui/[files]](./src/components/ui/) | UI components bootstrap from shadcn/ui  |
+| [/lib/](./src/lib/) | Main folder for schemas and functions for API communications. |
+| [/lib/graphql](./src/lib/graphql/) | Folders of curate GraphQL queries and mutations. Organised based on the module. |
+| [/lib/definitions.ts](./src/lib/definitions.ts) | Data Types declarations. |
+| [/lib/schema.ts](./src/lib/schema.ts) | Form validations and schemas. |
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

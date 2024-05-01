@@ -4,6 +4,8 @@ This monorepo consist of 2 packages:
 - frontend: vehicle management dashboard
 - backend: API server & business logic
 
+Each of the service has their own docker compose file. A All-in-One(AIO) docker compose file is in progress.
+
 
 # Original Question
 
