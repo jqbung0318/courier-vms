@@ -1,9 +1,28 @@
 import Header from "@/components/header";
-import { fetchVehicles } from "@/lib/data";
 import Form from "@/components/ui/maintenance/create-form";
+import { gql } from "@apollo/client";
+import { getClient as getApolloClient } from "@/lib/graphql/server-side";
+
+const query = gql`
+    query getVehicles {
+        vehicles {
+            id
+            plateNo
+            nickname
+            brand {
+                name
+            }
+            model {
+                name
+            }
+            type
+            status
+        }
+    }
+`
 
 export default async function CreateMaintenanceRecordPage() {
-    const vehicles = await fetchVehicles();
+    const { data: { vehicles } } = await getApolloClient().query({ query })
 
     return (
         <div>

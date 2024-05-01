@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import createMaintenanceRecord from "@/lib/graphql/maintenance/create";
 
 
 export default function CreateMaintenanceRecordForm({ vehicles }: { vehicles: Vehicle[] }) {
@@ -28,8 +29,8 @@ export default function CreateMaintenanceRecordForm({ vehicles }: { vehicles: Ve
     })
     const router = useRouter()
 
-    function onSubmit(values: z.infer<typeof CreateMaintenanceRecordFormSchema>) {
-        // console.log(values);
+    async function onSubmit(values: z.infer<typeof CreateMaintenanceRecordFormSchema>) {
+        const [record, errors] = await createMaintenanceRecord(values)
 
         router.push("/maintenance")
 
@@ -54,7 +55,7 @@ export default function CreateMaintenanceRecordForm({ vehicles }: { vehicles: Ve
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Vehicle</FormLabel>
-                                    <Select onValueChange={field.onChange}>
+                                    <Select onValueChange={e => field.onChange(parseInt(e))}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a vehicle" />
@@ -168,10 +169,27 @@ export default function CreateMaintenanceRecordForm({ vehicles }: { vehicles: Ve
                                 <FormItem>
                                     <FormLabel>Mileage</FormLabel>
                                     <FormControl>
-                                        <Input placeholder='1000' {...field} />
+                                        <Input type="number" placeholder='1000' {...field} onChange={event => field.onChange(+event.target.value)} />
                                     </FormControl>
                                     <FormDescription>
                                         Vehicle mileage during service
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="remarks"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Remarks</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='custom message here' {...field} />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Additional maintenance message
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

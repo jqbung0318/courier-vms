@@ -11,8 +11,8 @@ const VehicleFormSchema = z.object({
     vehicleModelId: z.number(),
     status: z.nativeEnum(VehicleStatus),
     // status: z.enum(['online', 'offline', 'maintenance']),
-    createdAt: z.string(),
-    updatedAt: z.string(),
+    createdAt: z.date(),
+    updatedAt: z.date(),
 })
 
 const CreateVehicleFormSchema = VehicleFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
@@ -24,11 +24,12 @@ const MaintenanceRecordFormSchema = z.object({
     scheduledAt: z.date(),
     maintainedAt: z.date(),
     mileage: z.number(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
+    createdAt: z.date(),
+    updatedAt: z.date(),
+    remarks: z.string(),
 })
 
-const CreateMaintenanceRecordFormSchema = MaintenanceRecordFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
+const CreateMaintenanceRecordFormSchema = MaintenanceRecordFormSchema.omit({ id: true, createdAt: true, updatedAt: true }).partial({ maintainedAt: true, mileage: true, remarks: true })
 const UpdateMaintenanceRecordFormSchema = MaintenanceRecordFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
 
 

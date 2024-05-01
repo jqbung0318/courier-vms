@@ -33,7 +33,8 @@ export const columns: ColumnDef<VehicleMaintenanceRecord>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "plateNo",
+        id: "plateNo",
+        accessorKey: "vehicle.plateNo",
         header: ({ column }) => {
             return (
                 <Button
@@ -73,12 +74,12 @@ export const columns: ColumnDef<VehicleMaintenanceRecord>[] = [
                 </Button>
             )
         },
-        filterFn: (row, columnId, filterValue) => (
+        filterFn: (row, columnId, filterValue) => {
             // if filter is not applied, print all
-            !(filterValue === "true") ||
+            if (!(filterValue === "true")) { return true }
             // else print those without maintainedAt
-            row.getValue(columnId) === undefined
-        )
+            return row.getValue(columnId) === null
+        }
     },
     {
         accessorKey: "mileage",
