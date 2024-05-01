@@ -17,6 +17,7 @@ export type VehicleMaintenanceRecord = {
     scheduledAt: Date;
     maintainedAt?: Date;
     mileage?: number;
+    remarks?: string;
 }
 
 export type VehicleBrandsField = {
@@ -27,18 +28,19 @@ export type VehicleBrandsField = {
 export type VehicleModelsField = {
     id: number;
     name: string;
+    vehicleBrandId?: number;
 }
 
 export enum VehicleStatus {
-    'ONLINE' = "online",
-    'OFFLINE' = "offline",
-    'MAINTENANCE' = "maintenance"
+    'ONLINE' = 'ONLINE',
+    'OFFLINE' = 'OFFLINE',
+    'MAINTENANCE' = 'MAINTENANCE',
 }
 
 export enum VehicleType {
-    'MOTORCYCLE' = <any>"Motorcycle",
-    'CAR' = <any>"Car",
-    'FOURWHEELS' = <any>"Four Wheels",
-    'VAN' = <any>"Van",
-    'LORRY' = <any>"Lorry"
+    'MOTORCYCLE' = 'MOTORCYCLE',
+    'CAR' = 'CAR',
+    'FOURWHEELS' = 'FOURWHEELS',
+    'VAN' = 'VAN',
+    'LORRY' = 'LORRY',
 }

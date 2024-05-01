@@ -12,7 +12,37 @@ import { toast } from '../use-toast';
 import { RadioGroup, RadioGroupItem } from '../radio-group';
 import { useRouter } from 'next/navigation';
 import { CreateVehicleFormSchema } from '@/lib/schema';
+import { gql, useMutation } from '@apollo/client';
+import { createApolloClient } from '@/lib/graphql/client';
+import createVehicle from '@/lib/graphql/vehicles/create';
 
+const createVehicleMutation = gql`
+    mutation createVehicle (
+        $plateNo: String!,
+        $nickname: String!,
+        $type: VehicleType!,
+        $vehicleBrandId: Int!,
+        $vehicleModelId: Int!,
+        $status: VehicleStatus!,
+    ) {
+        createVehicle(
+            plateNo: $plateNo,
+            nickname: $nickname,
+            type: $type,
+            vehicleBrandId: $vehicleBrandId,
+            vehicleModelId: $vehicleModelId,
+            status: $status,
+        ) {
+            id
+            plateNo
+            nickname
+            type
+            vehicleBrandId
+            vehicleModelId
+            status
+        }
+    }
+`
 
 export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsField[], models: VehicleModelsField[] }) {
     const form = useForm<z.infer<typeof CreateVehicleFormSchema>>({
@@ -24,8 +54,9 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
     })
     const router = useRouter()
 
-    function onSubmit(values: z.infer<typeof CreateVehicleFormSchema>) {
-        // console.log(values);
+    async function onSubmit(values: z.infer<typeof CreateVehicleFormSchema>) {
+        // const { data: { createVehicle }, errors } = await createApolloClient().mutate({ mutation: createVehicleMutation })
+        const [vehicle, errors] = await createVehicle(values)
 
         router.push("/vehicles")
 
@@ -50,7 +81,7 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Brand</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+                                    <Select onValueChange={(value) => field.onChange(parseInt(value))}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a vehicle brand" />
@@ -75,20 +106,37 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Model</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+
+                                    <Select onValueChange={(value) => field.onChange(parseInt(value))} disabled={!form.getValues("vehicleBrandId")}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a vehicle model" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {models.map(model => (
-                                                <SelectItem key={model.name} value={model.id.toString()}>{model.name}</SelectItem>
-                                            ))}
+                                            {
+                                                !form.getValues("vehicleBrandId")
+                                                    // return nothing if brand has not been selected
+                                                    ? <></>
+                                                    // filter the models by the brand id
+                                                    : models.filter(m => m.vehicleBrandId === form.getValues("vehicleBrandId")).map(model => (
+                                                        <SelectItem key={model.name} value={model.id.toString()}>{model.name}</SelectItem>
+
+                                                    ))
+
+                                                // !brandId
+                                                //     // return nothing if brand has not been selected
+                                                //     ? <></>
+                                                //     // filter the models by the brand id
+                                                //     : models.filter(m => m.vehicleBrandId === brandId).map(model => (
+                                                //         <SelectItem key={model.name} value={model.id.toString()}>{model.name}</SelectItem>
+
+                                                //     ))
+                                            }
                                         </SelectContent>
                                     </Select>
                                     <FormDescription>
-                                        Vehicle model
+                                        {!form.getValues("vehicleBrandId") ? <>Please select vehicle brand first</> : <>Vehicle model</>}
                                     </FormDescription>
                                 </FormItem>
                             )}
@@ -134,18 +182,18 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Vehicle Type</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+                                    <Select onValueChange={field.onChange} defaultValue={String(field.value)}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a vehicle type" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem key='motorcycle' value='Motorcycle'>Motorcycle</SelectItem>
-                                            <SelectItem key='car' value='Car'>Car</SelectItem>
-                                            <SelectItem key='fourwheels' value='4-Wheels'>Fourwheels</SelectItem>
-                                            <SelectItem key='van' value='Van'>Van</SelectItem>
-                                            <SelectItem key='lorry' value='Lorry'>Lorry</SelectItem>
+                                            <SelectItem key='motorcycle' value='MOTORCYCLE'>Motorcycle</SelectItem>
+                                            <SelectItem key='car' value='CAR'>Car</SelectItem>
+                                            <SelectItem key='fourwheels' value='FOURWHEELS'>Fourwheels</SelectItem>
+                                            <SelectItem key='van' value='VAN'>Van</SelectItem>
+                                            <SelectItem key='lorry' value='LORRY'>Lorry</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <FormDescription>
@@ -164,12 +212,12 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                                     <FormControl>
                                         <RadioGroup
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
+                                            defaultValue={String(field.value)}
                                             className="flex flex-col space-y-1"
                                         >
                                             <FormItem className="flex items-center space-x-3 space-y-0">
                                                 <FormControl>
-                                                    <RadioGroupItem value="online" />
+                                                    <RadioGroupItem value="ONLINE" />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">
                                                     Online
@@ -177,7 +225,7 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                                             </FormItem>
                                             <FormItem className="flex items-center space-x-3 space-y-0">
                                                 <FormControl>
-                                                    <RadioGroupItem value="offline" />
+                                                    <RadioGroupItem value="OFFLINE" />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">
                                                     Offline
@@ -185,7 +233,7 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                                             </FormItem>
                                             <FormItem className="flex items-center space-x-3 space-y-0">
                                                 <FormControl>
-                                                    <RadioGroupItem value="maintenance" />
+                                                    <RadioGroupItem value="MAINTENANCE" />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">Maintenance</FormLabel>
                                             </FormItem>
@@ -200,162 +248,5 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                 </form>
             </Form>
         </main>
-
     )
 }
-
-
-// export default function Form({ brands }: { brands: VehicleBrandsField[] }) {
-//     const initialState = { message: "", errors: {} };
-//     const [state, dispatch] = useFormState(createVehicle, initialState);
-
-//     return (
-//         <form action={dispatch}>
-//             <div className="rounded-md bg-gray-50 p-4 md:p-6">
-//                 {/* Customer Name */}
-//                 <div className="mb-4">
-//                     <label htmlFor="brand" className="mb-2 block text-sm font-medium">
-//                         Choose vehicle brand
-//                     </label>
-//                     <div className="relative">
-//                         <select
-//                             id="brand"
-//                             name="brandId"
-//                             className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-//                             defaultValue=""
-//                             aria-describedby="vehicle-brand-error"
-//                         >
-//                             <option value="" disabled>
-//                                 Select a vehicle brand
-//                             </option>
-//                             {brands.map((brand) => (
-//                                 <option key={brand.id} value={brand.id}>
-//                                     {brand.name}
-//                                 </option>
-//                             ))}
-//                         </select>
-//                         <RocketIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-//                     </div>
-
-//                     {/* <div id="vehicle-brand-error" aria-live="polite" aria-atomic="true">
-//                         {state.errors?.vehicleBrandId &&
-//                             state.errors.customerId.map((error: string) => (
-//                                 <p className="mt-2 text-sm text-red-500" key={error}>
-//                                     {error}
-//                                 </p>
-//                             ))}
-//                     </div> */}
-//                 </div>
-
-//                 {/* Invoice Amount */}
-//                 {/* <div className="mb-4">
-//                     <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-//                         Choose an amount
-//                     </label>
-//                     <div className="relative mt-2 rounded-md">
-//                         <div className="relative">
-//                             <input
-//                                 id="amount"
-//                                 name="amount"
-//                                 type="number"
-//                                 step="0.01"
-//                                 placeholder="Enter USD amount"
-//                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-//                                 aria-describedby="amount-error"
-//                             />
-//                             <StarFilledIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-//                         </div>
-//                     </div>
-
-//                     <div id="amount-error" aria-live="polite" aria-atomic="true">
-//                         {state.errors?.amount &&
-//                             state.errors.amount.map((error: string) => (
-//                                 <p className="mt-2 text-sm text-red-500" key={error}>
-//                                     {error}
-//                                 </p>
-//                             ))}
-//                     </div>
-//                 </div> */}
-
-//                 {/* Vehicle Status */}
-//                 <fieldset>
-//                     <legend className="mb-2 block text-sm font-medium">
-//                         Set the vehicle status
-//                     </legend>
-//                     <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
-//                         <div className="flex gap-4">
-//                             <div className="flex items-center">
-//                                 <input
-//                                     id="online"
-//                                     name="status"
-//                                     type="radio"
-//                                     value="online"
-//                                     className="text-white-600 h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 focus:ring-2"
-//                                 />
-//                                 <label
-//                                     htmlFor="online"
-//                                     className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
-//                                 >
-//                                     Online <ClockIcon className="h-4 w-4" />
-//                                 </label>
-//                             </div>
-//                             <div className="flex items-center">
-//                                 <input
-//                                     id="offline"
-//                                     name="status"
-//                                     type="radio"
-//                                     value="offline"
-//                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-//                                 />
-//                                 <label
-//                                     htmlFor="offline"
-//                                     className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
-//                                 >
-//                                     Offline <CheckIcon className="h-4 w-4" />
-//                                 </label>
-//                             </div>
-//                             <div className="flex items-center">
-//                                 <input
-//                                     id="maintenance"
-//                                     name="status"
-//                                     type="radio"
-//                                     value="maintenance"
-//                                     className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-//                                 />
-//                                 <label
-//                                     htmlFor="maintenance"
-//                                     className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
-//                                 >
-//                                     Maintenance <CheckIcon className="h-4 w-4" />
-//                                 </label>
-//                             </div>
-//                         </div>
-//                     </div>
-//                     {/* <div id="status-error" aria-live="polite" aria-atomic="true">
-//                         {state.errors?.status &&
-//                             state.errors.status.map((error: string) => (
-//                                 <p className="mt-2 text-sm text-red-500" key={error}>
-//                                     {error}
-//                                 </p>
-//                             ))}
-//                     </div> */}
-//                 </fieldset>
-
-//                 <div aria-live="polite" aria-atomic="true">
-//                     {state.message ? (
-//                         <p className="mt-2 text-sm text-red-500">{state.message}</p>
-//                     ) : null}
-//                 </div>
-//             </div>
-//             <div className="mt-6 flex justify-end gap-4">
-//                 <Link
-//                     href="/dashboard/invoices"
-//                     className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-//                 >
-//                     Cancel
-//                 </Link>
-//                 <Button type="submit">Create Invoice</Button>
-//             </div>
-//         </form>
-//     );
-// }

@@ -63,6 +63,14 @@ export const columns: ColumnDef<Vehicle>[] = [
         header: "Nickname",
     },
     {
+        accessorKey: "brand.name",
+        header: "Brand"
+    },
+    {
+        accessorKey: "model.name",
+        header: "Model"
+    },
+    {
         accessorKey: "type",
         header: "Vehicle Type",
     },

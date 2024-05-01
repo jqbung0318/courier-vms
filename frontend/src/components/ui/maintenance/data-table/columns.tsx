@@ -73,14 +73,12 @@ export const columns: ColumnDef<VehicleMaintenanceRecord>[] = [
                 </Button>
             )
         },
-        filterFn: (row, columnId, filterValue) => {
-            if (!(filterValue === "true")) return true
-
-            // console.log(row.getValue(columnId));
-            console.log(filterValue);
-
-            return row.getValue(columnId) === undefined
-        }
+        filterFn: (row, columnId, filterValue) => (
+            // if filter is not applied, print all
+            !(filterValue === "true") ||
+            // else print those without maintainedAt
+            row.getValue(columnId) === undefined
+        )
     },
     {
         accessorKey: "mileage",

@@ -1,14 +1,36 @@
 import { fetchVehicleBrands, fetchVehicleModels } from "@/lib/data";
 import { CreateVehicleForm as Form } from '@/components/ui/vehicles/create-form';
 import Header from "@/components/header";
+import { gql } from "@apollo/client";
+import { getClient as getApolloClient } from "@/lib/graphql/server-side";
+
+const brandsQuery = gql`
+    query getBrands {
+        brands {
+            id
+            name
+        }
+    }
+`
+
+const modelsQuery = gql`
+    query getModels {
+        models {
+            id
+            name
+            vehicleBrandId
+        }
+    }
+`
 
 export default async function CreateVehiclePage() {
-    const [brands, models] = await Promise.all([
-        fetchVehicleBrands(),
-        fetchVehicleModels(),
+    const [
+        { data: { brands } },
+        { data: { models } }
+    ] = await Promise.all([
+        getApolloClient().query({ query: brandsQuery }),
+        getApolloClient().query({ query: modelsQuery }),
     ])
-
-    // const brands = await fetchVehicleBrands();
 
     return (
         <div>
