@@ -4,7 +4,7 @@ export default [
     {
         "plateNo": "ABC123",
         "nickname": "Logistics Warehouse A",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 1,
         "vehicleModelId": 1,
         "status": VehicleStatus.ONLINE
@@ -12,7 +12,7 @@ export default [
     {
         "plateNo": "DEF456",
         "nickname": "Logistics Warehouse B",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 1,
         "vehicleModelId": 1,
         "status": VehicleStatus.OFFLINE
@@ -44,7 +44,7 @@ export default [
     {
         "plateNo": "PQR678",
         "nickname": "Logistics Warehouse F",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 1,
         "vehicleModelId": 3,
         "status": VehicleStatus.ONLINE
@@ -84,7 +84,7 @@ export default [
     {
         "plateNo": "EFG123",
         "nickname": "Logistics Warehouse K",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 2,
         "vehicleModelId": 6,
         "status": VehicleStatus.ONLINE
@@ -116,7 +116,7 @@ export default [
     {
         "plateNo": "QRS345",
         "nickname": "Logistics Warehouse O",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 3,
         "vehicleModelId": 8,
         "status": VehicleStatus.ONLINE
@@ -156,7 +156,7 @@ export default [
     {
         "plateNo": "CDE890",
         "nickname": "Logistics Warehouse T",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 4,
         "vehicleModelId": 10,
         "status": VehicleStatus.MAINTENANCE
@@ -172,7 +172,7 @@ export default [
     {
         "plateNo": "EFG456",
         "nickname": "Logistics Warehouse V",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 5,
         "vehicleModelId": 11,
         "status": VehicleStatus.OFFLINE
@@ -212,7 +212,7 @@ export default [
     {
         "plateNo": "JKL901",
         "nickname": "Logistics Warehouse AA",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 6,
         "vehicleModelId": 14,
         "status": VehicleStatus.ONLINE
@@ -236,7 +236,7 @@ export default [
     {
         "plateNo": "MNO890",
         "nickname": "Logistics Warehouse DD",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 7,
         "vehicleModelId": 15,
         "status": VehicleStatus.OFFLINE
@@ -284,7 +284,7 @@ export default [
     {
         "plateNo": "STU678",
         "nickname": "Logistics Warehouse JJ",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 8,
         "vehicleModelId": 18,
         "status": VehicleStatus.ONLINE
@@ -324,7 +324,7 @@ export default [
     {
         "plateNo": "XYZ123",
         "nickname": "Logistics Warehouse OO",
-        "type": VehicleType.CARS,
+        "type": VehicleType.CAR,
         "vehicleBrandId": 10,
         "vehicleModelId": 21,
         "status": VehicleStatus.OFFLINE

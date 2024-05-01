@@ -63,7 +63,7 @@ model VehicleMaintenaceRecord {
 
 enum VehicleType {
   MOTORCYCLE
-  CARS
+  CAR
   FOURWHEELS
   VAN
   LORRY
