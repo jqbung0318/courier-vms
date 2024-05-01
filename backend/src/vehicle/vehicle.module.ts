@@ -12,5 +12,6 @@ import { PrismaModule } from 'src/prisma/prisma.module';
     PrismaModule
   ],
   providers: [VehicleResolver, VehicleService],
+  exports: [VehicleService]
 })
 export class VehicleModule { }

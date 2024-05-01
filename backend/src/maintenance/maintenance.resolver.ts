@@ -4,10 +4,14 @@ import { MaintenanceObjectType } from './entities/maintenance.entity';
 import { CreateMaintenanceInput } from './dto/create-maintenance.input';
 import { UpdateMaintenanceInput } from './dto/update-maintenance.input';
 import { VehicleObjectType } from 'src/vehicle/entities/vehicle.entity';
+import { VehicleService } from 'src/vehicle/vehicle.service';
 
 @Resolver(() => MaintenanceObjectType)
 export class MaintenanceResolver {
-  constructor(private readonly maintenanceService: MaintenanceService) { }
+  constructor(
+    private readonly maintenanceService: MaintenanceService,
+    private readonly vehicleService: VehicleService,
+  ) { }
 
   @Mutation(() => MaintenanceObjectType)
   createMaintenance(@Args('createMaintenanceInput') createMaintenanceInput: CreateMaintenanceInput) {
@@ -27,7 +31,7 @@ export class MaintenanceResolver {
   @ResolveField('vehicle', () => VehicleObjectType)
   async vehicle(@Parent() record: MaintenanceObjectType) {
     const { vehicleId } = record
-    return this.maintenanceService.getRecordById(vehicleId)
+    return this.vehicleService.getByVehicleId(vehicleId)
   }
 
   @Mutation(() => MaintenanceObjectType)

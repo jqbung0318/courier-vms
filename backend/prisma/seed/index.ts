@@ -2,6 +2,7 @@ import { Prisma, PrismaClient, VehicleStatus, VehicleType } from "@prisma/client
 import brandTemplate from "./templates/brands";
 import modelTemplate from "./templates/models";
 import vehicleTemplate from "./templates/vehicles";
+import maintenanceRecordTemplate from "./templates/maintenance";
 
 const prisma = new PrismaClient();
 
@@ -24,6 +25,10 @@ const main = async () => {
 
     const vehicles = await prisma.vehicle.createMany({
         data: vehicleTemplate
+    })
+
+    const maintenanceRecords = await prisma.vehicleMaintenaceRecord.createMany({
+        data: maintenanceRecordTemplate
     })
 }
 

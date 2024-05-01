@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { VehicleMaintenaceRecord } from '@prisma/client';
+import { VehicleObjectType } from 'src/vehicle/entities/vehicle.entity';
 
 @ObjectType()
 export class MaintenanceObjectType implements VehicleMaintenaceRecord {
