@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import updateVehicle from "@/lib/graphql/vehicles/update";
+
 
 export function UpdateVehicleForm({ vehicle, brands, models }: { vehicle: Vehicle, brands: VehicleBrandsField[], models: VehicleModelsField[] }) {
     const form = useForm<z.infer<typeof UpdateVehicleFormSchema>>({
@@ -20,7 +22,9 @@ export function UpdateVehicleForm({ vehicle, brands, models }: { vehicle: Vehicl
     })
     const router = useRouter()
 
-    function onSubmit(values: z.infer<typeof UpdateVehicleFormSchema>) {
+    async function onSubmit(values: z.infer<typeof UpdateVehicleFormSchema>) {
+        const [vehicle, errors] = await updateVehicle(values)
+
         router.push("/vehicles")
 
         return toast({
@@ -45,7 +49,7 @@ export function UpdateVehicleForm({ vehicle, brands, models }: { vehicle: Vehicl
                                 <FormItem>
                                     <FormLabel>Brand</FormLabel>
                                     <Select
-                                        onValueChange={field.onChange}
+                                        onValueChange={value => field.onChange(parseInt(value))}
                                         defaultValue={field.value.toString()}
                                     >
                                         <FormControl>
@@ -72,23 +76,27 @@ export function UpdateVehicleForm({ vehicle, brands, models }: { vehicle: Vehicl
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Model</FormLabel>
-                                    <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value.toString()}
-                                    >
+                                    <Select onValueChange={(value) => field.onChange(parseInt(value))} defaultValue={field.value.toString()} disabled={!form.getValues("vehicleBrandId")}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a vehicle model" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {models.map(model => (
-                                                <SelectItem key={model.name} value={model.id.toString()}>{model.name}</SelectItem>
-                                            ))}
+                                            {
+                                                !form.getValues("vehicleBrandId")
+                                                    // return nothing if brand has not been selected
+                                                    ? <></>
+                                                    // filter the models by the brand id
+                                                    : models.filter(m => m.vehicleBrandId === form.getValues("vehicleBrandId")).map(model => (
+                                                        <SelectItem key={model.name} value={model.id.toString()}>{model.name}</SelectItem>
+
+                                                    ))
+                                            }
                                         </SelectContent>
                                     </Select>
                                     <FormDescription>
-                                        Vehicle model
+                                        {!form.getValues("vehicleBrandId") ? <>Please select vehicle brand first</> : <>Vehicle model</>}
                                     </FormDescription>
                                 </FormItem>
                             )}
@@ -134,18 +142,18 @@ export function UpdateVehicleForm({ vehicle, brands, models }: { vehicle: Vehicl
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Vehicle Type</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
+                                    <Select onValueChange={field.onChange} defaultValue={String(field.value)}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a vehicle type" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem key='motorcycle' value='Motorcycle'>Motorcycle</SelectItem>
-                                            <SelectItem key='car' value='Car'>Car</SelectItem>
-                                            <SelectItem key='fourwheels' value='4-Wheels'>Fourwheels</SelectItem>
-                                            <SelectItem key='van' value='Van'>Van</SelectItem>
-                                            <SelectItem key='lorry' value='Lorry'>Lorry</SelectItem>
+                                            <SelectItem key='motorcycle' value='MOTORCYCLE'>Motorcycle</SelectItem>
+                                            <SelectItem key='car' value='CAR'>Car</SelectItem>
+                                            <SelectItem key='fourwheels' value='FOURWHEELS'>Fourwheels</SelectItem>
+                                            <SelectItem key='van' value='VAN'>Van</SelectItem>
+                                            <SelectItem key='lorry' value='LORRY'>Lorry</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <FormDescription>
@@ -164,12 +172,12 @@ export function UpdateVehicleForm({ vehicle, brands, models }: { vehicle: Vehicl
                                     <FormControl>
                                         <RadioGroup
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
+                                            defaultValue={String(field.value)}
                                             className="flex flex-col space-y-1"
                                         >
                                             <FormItem className="flex items-center space-x-3 space-y-0">
                                                 <FormControl>
-                                                    <RadioGroupItem value="online" />
+                                                    <RadioGroupItem value="ONLINE" />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">
                                                     Online
@@ -177,7 +185,7 @@ export function UpdateVehicleForm({ vehicle, brands, models }: { vehicle: Vehicl
                                             </FormItem>
                                             <FormItem className="flex items-center space-x-3 space-y-0">
                                                 <FormControl>
-                                                    <RadioGroupItem value="offline" />
+                                                    <RadioGroupItem value="OFFLINE" />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">
                                                     Offline
@@ -185,7 +193,7 @@ export function UpdateVehicleForm({ vehicle, brands, models }: { vehicle: Vehicl
                                             </FormItem>
                                             <FormItem className="flex items-center space-x-3 space-y-0">
                                                 <FormControl>
-                                                    <RadioGroupItem value="maintenance" />
+                                                    <RadioGroupItem value="MAINTENANCE" />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">Maintenance</FormLabel>
                                             </FormItem>

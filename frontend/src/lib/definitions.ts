@@ -32,15 +32,15 @@ export type VehicleModelsField = {
 }
 
 export enum VehicleStatus {
-    'ONLINE' = 'ONLINE',
-    'OFFLINE' = 'OFFLINE',
-    'MAINTENANCE' = 'MAINTENANCE',
+    'ONLINE' = <any>'ONLINE',
+    'OFFLINE' = <any>'OFFLINE',
+    'MAINTENANCE' = <any>'MAINTENANCE',
 }
 
 export enum VehicleType {
-    'MOTORCYCLE' = 'MOTORCYCLE',
-    'CAR' = 'CAR',
-    'FOURWHEELS' = 'FOURWHEELS',
-    'VAN' = 'VAN',
-    'LORRY' = 'LORRY',
+    'MOTORCYCLE' = <any>'MOTORCYCLE',
+    'CAR' = <any>'CAR',
+    'FOURWHEELS' = <any>'FOURWHEELS',
+    'VAN' = <any>'VAN',
+    'LORRY' = <any>'LORRY',
 }

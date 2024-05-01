@@ -1,4 +1,3 @@
-import { fetchVehicleBrands, fetchVehicleModels } from "@/lib/data";
 import { CreateVehicleForm as Form } from '@/components/ui/vehicles/create-form';
 import Header from "@/components/header";
 import { gql } from "@apollo/client";

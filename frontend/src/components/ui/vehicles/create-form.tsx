@@ -12,37 +12,8 @@ import { toast } from '../use-toast';
 import { RadioGroup, RadioGroupItem } from '../radio-group';
 import { useRouter } from 'next/navigation';
 import { CreateVehicleFormSchema } from '@/lib/schema';
-import { gql, useMutation } from '@apollo/client';
-import { createApolloClient } from '@/lib/graphql/client';
 import createVehicle from '@/lib/graphql/vehicles/create';
 
-const createVehicleMutation = gql`
-    mutation createVehicle (
-        $plateNo: String!,
-        $nickname: String!,
-        $type: VehicleType!,
-        $vehicleBrandId: Int!,
-        $vehicleModelId: Int!,
-        $status: VehicleStatus!,
-    ) {
-        createVehicle(
-            plateNo: $plateNo,
-            nickname: $nickname,
-            type: $type,
-            vehicleBrandId: $vehicleBrandId,
-            vehicleModelId: $vehicleModelId,
-            status: $status,
-        ) {
-            id
-            plateNo
-            nickname
-            type
-            vehicleBrandId
-            vehicleModelId
-            status
-        }
-    }
-`
 
 export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsField[], models: VehicleModelsField[] }) {
     const form = useForm<z.infer<typeof CreateVehicleFormSchema>>({
@@ -55,7 +26,6 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
     const router = useRouter()
 
     async function onSubmit(values: z.infer<typeof CreateVehicleFormSchema>) {
-        // const { data: { createVehicle }, errors } = await createApolloClient().mutate({ mutation: createVehicleMutation })
         const [vehicle, errors] = await createVehicle(values)
 
         router.push("/vehicles")
@@ -121,17 +91,7 @@ export function CreateVehicleForm({ brands, models }: { brands: VehicleBrandsFie
                                                     // filter the models by the brand id
                                                     : models.filter(m => m.vehicleBrandId === form.getValues("vehicleBrandId")).map(model => (
                                                         <SelectItem key={model.name} value={model.id.toString()}>{model.name}</SelectItem>
-
                                                     ))
-
-                                                // !brandId
-                                                //     // return nothing if brand has not been selected
-                                                //     ? <></>
-                                                //     // filter the models by the brand id
-                                                //     : models.filter(m => m.vehicleBrandId === brandId).map(model => (
-                                                //         <SelectItem key={model.name} value={model.id.toString()}>{model.name}</SelectItem>
-
-                                                //     ))
                                             }
                                         </SelectContent>
                                     </Select>

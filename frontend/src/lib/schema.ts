@@ -16,7 +16,7 @@ const VehicleFormSchema = z.object({
 })
 
 const CreateVehicleFormSchema = VehicleFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
-const UpdateVehicleFormSchema = VehicleFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
+const UpdateVehicleFormSchema = VehicleFormSchema.omit({ createdAt: true, updatedAt: true })
 
 const MaintenanceRecordFormSchema = z.object({
     id: z.number(),

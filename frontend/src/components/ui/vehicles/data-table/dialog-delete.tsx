@@ -1,8 +1,26 @@
 import { Cross2Icon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import deleteVehicle from "@/lib/graphql/vehicles/delete"
+import { toast } from "../../use-toast"
+import { useRouter } from "next/navigation"
 
-export default function DeleteConfirmDialog() {
+export default function DeleteConfirmDialog(props) {
+    const router = useRouter()
+    const vehicleIds = props.selectedRow.rows.map(item => item.original.id)
+
+    const handleOnclick = async () => {
+        await Promise.all(
+            vehicleIds.map(id => deleteVehicle(id))
+        )
+
+        router.refresh()
+
+        return toast({
+            title: "Vehicle deleted."
+        })
+    }
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -25,7 +43,7 @@ export default function DeleteConfirmDialog() {
                     <DialogClose asChild>
                         <Button type="button" variant="secondary">No</Button>
                     </DialogClose>
-                    <Button type="submit" variant="destructive">Yes</Button>
+                    <Button onClick={handleOnclick} type="submit" variant="destructive">Yes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
