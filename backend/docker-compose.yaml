@@ -35,6 +35,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+      - ./.envs/local/.env:/usr/src/app/.env
     networks:
       - courier-vms-network
     ports:
