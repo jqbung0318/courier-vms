@@ -82,7 +82,7 @@ export default function DataTableToolbar<TData>({
             <div className="lg:flex">
                 {
                     rowSelected && (
-                        <DeleteConfirmDialog />
+                        <DeleteConfirmDialog selectedRow={table.getSelectedRowModel()} />
                     )
                 }
 

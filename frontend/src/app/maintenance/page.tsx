@@ -10,7 +10,7 @@ const query = gql`
             id
             vehicle {
                 plateNo
-        }
+            }
             scheduledAt
             maintainedAt
             mileage

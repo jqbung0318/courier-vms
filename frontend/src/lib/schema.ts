@@ -21,8 +21,8 @@ const UpdateVehicleFormSchema = VehicleFormSchema.omit({ createdAt: true, update
 const MaintenanceRecordFormSchema = z.object({
     id: z.number(),
     vehicleId: z.number(),
-    scheduledAt: z.date(),
-    maintainedAt: z.date(),
+    scheduledAt: z.coerce.date({ required_error: "Missing scheduled time" }),
+    maintainedAt: z.coerce.date(),
     mileage: z.number(),
     createdAt: z.date(),
     updatedAt: z.date(),
@@ -30,7 +30,7 @@ const MaintenanceRecordFormSchema = z.object({
 })
 
 const CreateMaintenanceRecordFormSchema = MaintenanceRecordFormSchema.omit({ id: true, createdAt: true, updatedAt: true }).partial({ maintainedAt: true, mileage: true, remarks: true })
-const UpdateMaintenanceRecordFormSchema = MaintenanceRecordFormSchema.omit({ id: true, createdAt: true, updatedAt: true })
+const UpdateMaintenanceRecordFormSchema = MaintenanceRecordFormSchema.omit({ createdAt: true, updatedAt: true }).partial({ maintainedAt: true, mileage: true, remarks: true })
 
 
 export {

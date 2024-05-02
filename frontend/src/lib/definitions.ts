@@ -13,6 +13,7 @@ export type Vehicle = {
 export type VehicleMaintenanceRecord = {
     id: number;
     vehicleId: number;
+    vehicle?: Vehicle;
     plateNo?: string;
     scheduledAt: Date;
     maintainedAt?: Date;

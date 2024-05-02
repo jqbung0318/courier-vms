@@ -11,26 +11,31 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
+import { clean, cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../select";
-import { vehicles } from "@/lib/seed";
+import updateMaintenanceRecord from "@/lib/graphql/maintenance/update";
 
 
 export default function UpdateMaintenanceRecord({ record, vehicle }: { record: VehicleMaintenanceRecord, vehicle: Vehicle }) {
     const form = useForm<z.infer<typeof UpdateMaintenanceRecordFormSchema>>({
         resolver: zodResolver(UpdateMaintenanceRecordFormSchema),
-        defaultValues: { ...record }
+        defaultValues: {
+            ...clean(record),
+        }
     })
+
     const router = useRouter()
 
-    function onSubmit(values: z.infer<typeof UpdateMaintenanceRecordFormSchema>) {
+    async function onSubmit(values: z.infer<typeof UpdateMaintenanceRecordFormSchema>) {
+        const [record, errors] = await updateMaintenanceRecord(values)
+
         router.push("/maintenance")
 
         return toast({
-            title: "Update vehicle submitted:",
+            title: "Update maintenance record submitted:",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
                     <code className="text-white">{JSON.stringify(values, null, 2)}</code>
@@ -50,7 +55,7 @@ export default function UpdateMaintenanceRecord({ record, vehicle }: { record: V
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Vehicle</FormLabel>
-                                    <Select disabled defaultValue={record.vehicleId.toString()}>
+                                    <Select disabled defaultValue={field.value.toString()}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a vehicle" />
@@ -60,15 +65,14 @@ export default function UpdateMaintenanceRecord({ record, vehicle }: { record: V
                                             <SelectItem key={vehicle.id} value={vehicle.id.toString()}>{vehicle.plateNo} ({vehicle.nickname})</SelectItem>
                                         </SelectContent>
                                     </Select>
-                                    {/* <FormControl>
-                                        <Input disabled {...field} />
-                                    </FormControl> */}
                                     <FormDescription>
                                         Vehicle
                                     </FormDescription>
                                 </FormItem>
                             )}
                         />
+
+                        <div className="flex"></div>
 
                         <FormField
                             control={form.control}
@@ -165,10 +169,27 @@ export default function UpdateMaintenanceRecord({ record, vehicle }: { record: V
                                 <FormItem>
                                     <FormLabel>Mileage</FormLabel>
                                     <FormControl>
-                                        <Input placeholder='1000' {...field} />
+                                        <Input type="number" placeholder='1000' {...field} onChange={event => field.onChange(+event.target.value)} />
                                     </FormControl>
                                     <FormDescription>
                                         Vehicle mileage during service
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="remarks"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Remarks</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='custom message here' {...field} />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Additional maintenance message
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

@@ -49,11 +49,11 @@ export class MaintenanceService {
     return newRecord
   }
 
-  async remove(id: number): Promise<boolean> {
-    const ok = this.prisma.vehicleMaintenaceRecord.delete({
+  async remove(id: number): Promise<VehicleMaintenaceRecord | null> {
+    const record = this.prisma.vehicleMaintenaceRecord.delete({
       where: { id }
     })
 
-    return true
+    return record
   }
 }

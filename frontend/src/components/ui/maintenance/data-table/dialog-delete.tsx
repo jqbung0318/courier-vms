@@ -1,8 +1,27 @@
 import { Cross2Icon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useRouter } from "next/navigation"
+import deleteMaintenanceRecord from "@/lib/graphql/maintenance/delete"
+import { toast } from "../../use-toast"
 
-export default function DeleteConfirmDialog() {
+export default function DeleteConfirmDialog(props) {
+    const router = useRouter()
+    const recordIds = props.selectedRow.rows.map(item => item.original.id)
+
+    const handleOnclick = async () => {
+        await Promise.all(
+            recordIds.map(id => deleteMaintenanceRecord(id))
+        )
+
+        router.refresh()
+
+        return toast({
+            title: "Maintenance record deleted."
+        })
+    }
+
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -25,7 +44,7 @@ export default function DeleteConfirmDialog() {
                     <DialogClose asChild>
                         <Button type="button" variant="secondary">No</Button>
                     </DialogClose>
-                    <Button type="submit" variant="destructive">Yes</Button>
+                    <Button onClick={handleOnclick} type="submit" variant="destructive">Yes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

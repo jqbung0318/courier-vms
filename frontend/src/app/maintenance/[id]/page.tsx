@@ -1,6 +1,9 @@
 import Header from "@/components/header"
 import Form from '@/components/ui/maintenance/update-form'
 import { fetchMaintenanceRecordById, fetchVehicleById } from "@/lib/data"
+import { VehicleMaintenanceRecord } from "@/lib/definitions"
+import { getClient as getApolloClient } from "@/lib/graphql/server-side"
+import { gql } from "@apollo/client"
 
 interface EditMaintenanceRecordPageProps {
     params: {
@@ -8,16 +11,38 @@ interface EditMaintenanceRecordPageProps {
     }
 }
 
-export default async function EditMaintenanceRecordPage({ params }: EditMaintenanceRecordPageProps) {
-    const record = await fetchMaintenanceRecordById(parseInt(params.id))
+const recordQuery = gql`
+    query getMaintenanceRecord($id: Int!) {
+        maintenance (id: $id) {
+            id
+            vehicleId
+            vehicle {
+                id
+                plateNo
+                nickname
+            }
+            scheduledAt
+            maintainedAt
+            mileage
+            remarks
+        }
+    }
+`
 
-    if (record === undefined) {
+
+export default async function EditMaintenanceRecordPage({ params }: EditMaintenanceRecordPageProps) {
+    const { data: { maintenance } }: { data: { maintenance: VehicleMaintenanceRecord } } = await getApolloClient().query({ query: recordQuery, variables: { id: parseInt(params.id) } })
+
+    // const record = await fetchMaintenanceRecordById(parseInt(params.id))
+
+    if (maintenance === undefined) {
         return (
             <div>404</div>
         )
     }
 
-    const vehicle = await fetchVehicleById(record.vehicleId.toString())
+    const { vehicle, ...record } = maintenance
+    // const vehicle = await fetchVehicleById(record.vehicleId.toString())
 
     if (vehicle === undefined) {
         return (
