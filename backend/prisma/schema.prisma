@@ -16,8 +16,8 @@ datasource db {
 // Prisma Model
 model VehicleBrand {
   id        Int            @id @default(autoincrement())
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
+  createdAt DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime       @updatedAt @db.Timestamptz(6)
   name      String         @unique
   models    VehicleModel[]
   vehicles  Vehicle[]
@@ -25,8 +25,8 @@ model VehicleBrand {
 
 model VehicleModel {
   id             Int          @id @default(autoincrement())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  createdAt      DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime     @updatedAt @db.Timestamptz(6)
   name           String
   brand          VehicleBrand @relation(fields: [vehicleBrandId], references: [id])
   vehicleBrandId Int
@@ -35,8 +35,8 @@ model VehicleModel {
 
 model Vehicle {
   id                 Int                       @id @default(autoincrement())
-  createdAt          DateTime                  @default(now())
-  updatedAt          DateTime                  @updatedAt
+  createdAt          DateTime                  @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime                  @updatedAt @db.Timestamptz(6)
   plateNo            String                    @unique
   nickname           String?
   type               VehicleType
@@ -51,8 +51,8 @@ model Vehicle {
 
 model VehicleMaintenaceRecord {
   id           Int       @id @default(autoincrement())
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt    DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime  @updatedAt @db.Timestamptz(6)
   vehicle      Vehicle   @relation(fields: [vehicleId], references: [id])
   vehicleId    Int
   scheduledAt  DateTime

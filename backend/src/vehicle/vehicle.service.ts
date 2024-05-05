@@ -3,7 +3,7 @@ import { CreateVehicleInput } from './dto/create-vehicle.input';
 import { UpdateVehicleInput } from './dto/update-vehicle.input';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { VehicleObjectType } from './entities/vehicle.entity';
-import { Vehicle } from '@prisma/client';
+import { Prisma, Vehicle } from '@prisma/client';
 
 @Injectable()
 export class VehicleService {
@@ -24,11 +24,17 @@ export class VehicleService {
   async find(
     searchString?: string
   ): Promise<Vehicle[] | null> {
-    const query = searchString === null ? null : {
+    const ordering = {
+      orderBy: {
+        updatedAt: Prisma.SortOrder.desc
+      }
+    }
+    const query = searchString === null ? { ...ordering } : {
       where: {
         plateNo: { contains: searchString },
         nickname: { contains: searchString }
-      }
+      },
+      ...ordering
     }
 
     return this.prisma.vehicle.findMany(query)
