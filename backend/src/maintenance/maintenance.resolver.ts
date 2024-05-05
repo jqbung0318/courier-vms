@@ -5,6 +5,8 @@ import { CreateMaintenanceInput } from './dto/create-maintenance.input';
 import { UpdateMaintenanceInput } from './dto/update-maintenance.input';
 import { VehicleObjectType } from 'src/vehicle/entities/vehicle.entity';
 import { VehicleService } from 'src/vehicle/vehicle.service';
+import { SummaryObjectType } from './entities/dashbaord.entity';
+import { VehicleStatus } from '@prisma/client';
 
 @Resolver(() => MaintenanceObjectType)
 export class MaintenanceResolver {
@@ -19,8 +21,11 @@ export class MaintenanceResolver {
   }
 
   @Query(() => [MaintenanceObjectType], { name: 'maintenances' })
-  findAll(@Args('name', { type: () => String, nullable: true }) name?: string) {
-    return this.maintenanceService.find(name);
+  findAll(
+    @Args('incoming', { type: () => Boolean, nullable: true }) incoming?: boolean,
+    @Args('name', { type: () => String, nullable: true }) name?: string,
+  ) {
+    return this.maintenanceService.find(incoming || false, name);
   }
 
   @Query(() => MaintenanceObjectType, { name: 'maintenance' })
@@ -42,5 +47,14 @@ export class MaintenanceResolver {
   @Mutation(() => MaintenanceObjectType)
   removeMaintenance(@Args('id', { type: () => Int }) id: number) {
     return this.maintenanceService.remove(id);
+  }
+
+  @Query(() => SummaryObjectType)
+  summary() {
+    return {
+      vehicleCount: this.vehicleService.getVehicleCount(),
+      activeVehicleCount: this.vehicleService.getVehicleCount(VehicleStatus.ONLINE),
+      maintenanceVehicleCount: this.vehicleService.getVehicleCount(VehicleStatus.MAINTENANCE),
+    }
   }
 }

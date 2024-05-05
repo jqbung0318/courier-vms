@@ -7,8 +7,67 @@
 import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
 import Header from "@/components/header"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
+import { gql } from "@apollo/client"
+import { getClient as getApolloClient } from "@/lib/graphql/server-side"
+import { Vehicle, VehicleMaintenanceRecord } from "@/lib/definitions"
 
-export default function Home() {
+const summaryQuery = gql`
+  query getVehicleCount {
+    summary {
+      vehicleCount
+      activeVehicleCount
+      maintenanceVehicleCount
+    }
+  }
+`
+
+const offlineVehiclesQuery = gql`
+  query getVehicles {
+        vehicles(status: OFFLINE) {
+            id
+            plateNo
+            nickname
+            brand {
+                name
+            }
+            model {
+                name
+            }
+            type
+            status
+        }
+    }
+`
+
+const incomingMaintenanceQuery = gql`
+  query getIncomingMaintenance {
+    maintenances(incoming: true) {
+      id
+      vehicle {
+        plateNo
+        nickname
+        type
+      }
+      scheduledAt
+    }
+  }
+`
+
+export default async function Home() {
+  const [
+    { data: { summary } },
+    { data: { vehicles } },
+    { data: { maintenances } },
+  ]: [
+      { data: { summary: any } },
+      { data: { vehicles: Vehicle[] } },
+      { data: { maintenances: VehicleMaintenanceRecord[] } },
+    ] = await Promise.all([
+      getApolloClient().query({ query: summaryQuery, context: { fetchOptions: { next: { revalidate: 10 } } } }),
+      getApolloClient().query({ query: offlineVehiclesQuery, context: { fetchOptions: { next: { revalidate: 10 } } } }),
+      getApolloClient().query({ query: incomingMaintenanceQuery, context: { fetchOptions: { next: { revalidate: 10 } } } }),
+    ])
+
   return (
     <div>
       <Header title="Dashboard" />
@@ -20,7 +79,7 @@ export default function Home() {
               <CardDescription>Number of vehicles</CardDescription>
             </CardHeader>
             <CardContent className="flex items-center justify-center">
-              <span className="text-4xl font-semibold">1,234</span>
+              <span className="text-4xl font-semibold">{summary.vehicleCount}</span>
             </CardContent>
           </Card>
           <Card>
@@ -29,7 +88,7 @@ export default function Home() {
               <CardDescription>Vehicles currently in service</CardDescription>
             </CardHeader>
             <CardContent className="flex items-center justify-center">
-              <span className="text-4xl font-semibold">987</span>
+              <span className="text-4xl font-semibold">{summary.activeVehicleCount}</span>
             </CardContent>
           </Card>
           <Card>
@@ -38,7 +97,7 @@ export default function Home() {
               <CardDescription>Vehicles currently in maintenance</CardDescription>
             </CardHeader>
             <CardContent className="flex items-center justify-center">
-              <span className="text-4xl font-semibold">10</span>
+              <span className="text-4xl font-semibold">{summary.maintenanceVehicleCount}</span>
             </CardContent>
           </Card>
         </div>
@@ -57,16 +116,15 @@ export default function Home() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow key='BMK8268'>
-                    <TableCell className="font-medium">BMK8268</TableCell>
-                    <TableCell>Meh</TableCell>
-                    <TableCell>LORRY</TableCell>
-                  </TableRow>
-                  <TableRow key='DMK8268'>
-                    <TableCell className="font-medium">DMK8268</TableCell>
-                    <TableCell>Meh</TableCell>
-                    <TableCell>LORRY</TableCell>
-                  </TableRow>
+                  {
+                    vehicles.map(vehicle => (
+                      <TableRow key={vehicle.plateNo}>
+                        <TableCell className="font-medium">{vehicle.plateNo}</TableCell>
+                        <TableCell>{vehicle.nickname}</TableCell>
+                        <TableCell>{vehicle.type}</TableCell>
+                      </TableRow>
+                    ))
+                  }
                 </TableBody>
               </Table>
             </CardContent>
@@ -86,18 +144,16 @@ export default function Home() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow key='BMK8268'>
-                    <TableCell className="font-medium">BMK8268</TableCell>
-                    <TableCell>Meh</TableCell>
-                    <TableCell>LORRY</TableCell>
-                    <TableCell>26/4/2024</TableCell>
-                  </TableRow>
-                  <TableRow key='DMK8268'>
-                    <TableCell className="font-medium">DMK8268</TableCell>
-                    <TableCell>Meh</TableCell>
-                    <TableCell>LORRY</TableCell>
-                    <TableCell>26/4/2024</TableCell>
-                  </TableRow>
+                  {
+                    maintenances.map(record => (
+                      <TableRow key={record.vehicle?.plateNo}>
+                        <TableCell className="font-medium">{record.vehicle?.plateNo}</TableCell>
+                        <TableCell>{record.vehicle?.nickname}</TableCell>
+                        <TableCell>{record.vehicle?.type}</TableCell>
+                        <TableCell>{(new Date(record.scheduledAt)).toDateString()}</TableCell>
+                      </TableRow>
+                    ))
+                  }
                 </TableBody>
               </Table>
             </CardContent>

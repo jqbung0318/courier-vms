@@ -17,20 +17,31 @@ export class MaintenanceService {
   }
 
   async find(
-    searchString?: string
+    incoming: boolean,
+    searchString?: string,
   ): Promise<VehicleMaintenaceRecord[] | null> {
-    const ordering = {
+    const query = {
+      where: {},
       orderBy: {
         updatedAt: Prisma.SortOrder.desc
       }
     }
-    const query = searchString === null ? { ...ordering } : {
-      where: {
+
+    if (searchString !== null) {
+      query.where = {
+        ...query.where,
         vehicle: {
           plateNo: { contains: searchString },
         }
-      },
-      ...ordering
+      }
+    }
+    if (incoming) {
+      const now = new Date()
+      query.where = {
+        ...query.where,
+        scheduledAt: { lte: new Date(now.getFullYear(), now.getMonth() + 1, now.getDate()) },
+        maintainedAt: null,
+      }
     }
 
     return this.prisma.vehicleMaintenaceRecord.findMany(query)

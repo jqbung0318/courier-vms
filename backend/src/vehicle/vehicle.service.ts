@@ -3,7 +3,7 @@ import { CreateVehicleInput } from './dto/create-vehicle.input';
 import { UpdateVehicleInput } from './dto/update-vehicle.input';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { VehicleObjectType } from './entities/vehicle.entity';
-import { Prisma, Vehicle } from '@prisma/client';
+import { Prisma, Vehicle, VehicleStatus } from '@prisma/client';
 
 @Injectable()
 export class VehicleService {
@@ -22,19 +22,28 @@ export class VehicleService {
   }
 
   async find(
-    searchString?: string
+    searchString?: string,
+    status?: VehicleStatus,
   ): Promise<Vehicle[] | null> {
-    const ordering = {
+    const query = {
+      where: {},
       orderBy: {
         updatedAt: Prisma.SortOrder.desc
       }
     }
-    const query = searchString === null ? { ...ordering } : {
-      where: {
+
+    // conditionally filter
+    if (searchString !== undefined) {
+      query.where = {
         plateNo: { contains: searchString },
         nickname: { contains: searchString }
-      },
-      ...ordering
+      }
+    }
+    if (status !== undefined) {
+      query.where = {
+        ...query.where,
+        status
+      }
     }
 
     return this.prisma.vehicle.findMany(query)
@@ -61,5 +70,13 @@ export class VehicleService {
     })
 
     return vehicle
+  }
+
+  async getVehicleCount(status?: VehicleStatus): Promise<number> {
+    const condition = status !== undefined ? { status } : {}
+
+    return this.prisma.vehicle.count({
+      where: condition
+    })
   }
 }

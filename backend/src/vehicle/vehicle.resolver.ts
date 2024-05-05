@@ -7,6 +7,7 @@ import { Brand } from 'src/brand/entities/brand.entity';
 import { BrandService } from 'src/brand/brand.service';
 import { ModelService } from 'src/model/model.service';
 import { Model } from 'src/model/entities/model.entity';
+import { VehicleStatus } from '@prisma/client';
 
 @Resolver(() => VehicleObjectType)
 export class VehicleResolver {
@@ -22,8 +23,11 @@ export class VehicleResolver {
   }
 
   @Query(() => [VehicleObjectType], { name: 'vehicles' })
-  findAll(@Args('name', { type: () => String, nullable: true }) name?: string) {
-    return this.vehicleService.find(name);
+  findAll(
+    @Args('name', { type: () => String, nullable: true }) name?: string,
+    @Args('status', { type: () => VehicleStatus, nullable: true }) status?: VehicleStatus,
+  ) {
+    return this.vehicleService.find(name, status);
   }
 
   @Query(() => VehicleObjectType, { name: 'vehicle' })
