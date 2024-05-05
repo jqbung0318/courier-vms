@@ -126,7 +126,7 @@ export default [
         "nickname": "Logistics Warehouse P",
         "type": VehicleType.FOURWHEELS,
         "vehicleBrandId": 3,
-        "vehicleModelId": 8,
+        "vehicleModelId": 9,
         "status": VehicleStatus.MAINTENANCE
     },
     {
@@ -134,7 +134,7 @@ export default [
         "nickname": "Logistics Warehouse Q",
         "type": VehicleType.MOTORCYCLE,
         "vehicleBrandId": 4,
-        "vehicleModelId": 9,
+        "vehicleModelId": 10,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -142,7 +142,7 @@ export default [
         "nickname": "Logistics Warehouse R",
         "type": VehicleType.FOURWHEELS,
         "vehicleBrandId": 4,
-        "vehicleModelId": 9,
+        "vehicleModelId": 11,
         "status": VehicleStatus.OFFLINE
     },
     {
@@ -150,7 +150,7 @@ export default [
         "nickname": "Logistics Warehouse S",
         "type": VehicleType.VAN,
         "vehicleBrandId": 4,
-        "vehicleModelId": 10,
+        "vehicleModelId": 12,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -166,7 +166,7 @@ export default [
         "nickname": "Logistics Warehouse U",
         "type": VehicleType.MOTORCYCLE,
         "vehicleBrandId": 5,
-        "vehicleModelId": 11,
+        "vehicleModelId": 13,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -174,7 +174,7 @@ export default [
         "nickname": "Logistics Warehouse V",
         "type": VehicleType.CAR,
         "vehicleBrandId": 5,
-        "vehicleModelId": 11,
+        "vehicleModelId": 14,
         "status": VehicleStatus.OFFLINE
     },
     {
@@ -182,7 +182,7 @@ export default [
         "nickname": "Logistics Warehouse W",
         "type": VehicleType.FOURWHEELS,
         "vehicleBrandId": 5,
-        "vehicleModelId": 12,
+        "vehicleModelId": 15,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -190,7 +190,7 @@ export default [
         "nickname": "Logistics Warehouse X",
         "type": VehicleType.VAN,
         "vehicleBrandId": 5,
-        "vehicleModelId": 12,
+        "vehicleModelId": 14,
         "status": VehicleStatus.OFFLINE
     },
     {
@@ -198,7 +198,7 @@ export default [
         "nickname": "Logistics Warehouse Y",
         "type": VehicleType.MOTORCYCLE,
         "vehicleBrandId": 6,
-        "vehicleModelId": 13,
+        "vehicleModelId": 16,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -206,7 +206,7 @@ export default [
         "nickname": "Logistics Warehouse Z",
         "type": VehicleType.FOURWHEELS,
         "vehicleBrandId": 6,
-        "vehicleModelId": 13,
+        "vehicleModelId": 17,
         "status": VehicleStatus.MAINTENANCE
     },
     {
@@ -214,7 +214,7 @@ export default [
         "nickname": "Logistics Warehouse AA",
         "type": VehicleType.CAR,
         "vehicleBrandId": 6,
-        "vehicleModelId": 14,
+        "vehicleModelId": 18,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -222,7 +222,7 @@ export default [
         "nickname": "Logistics Warehouse BB",
         "type": VehicleType.FOURWHEELS,
         "vehicleBrandId": 6,
-        "vehicleModelId": 14,
+        "vehicleModelId": 18,
         "status": VehicleStatus.OFFLINE
     },
     {
@@ -230,7 +230,7 @@ export default [
         "nickname": "Logistics Warehouse CC",
         "type": VehicleType.VAN,
         "vehicleBrandId": 7,
-        "vehicleModelId": 15,
+        "vehicleModelId": 19,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -238,7 +238,7 @@ export default [
         "nickname": "Logistics Warehouse DD",
         "type": VehicleType.CAR,
         "vehicleBrandId": 7,
-        "vehicleModelId": 15,
+        "vehicleModelId": 20,
         "status": VehicleStatus.OFFLINE
     },
     {
@@ -246,7 +246,7 @@ export default [
         "nickname": "Logistics Warehouse EE",
         "type": VehicleType.FOURWHEELS,
         "vehicleBrandId": 7,
-        "vehicleModelId": 16,
+        "vehicleModelId": 21,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -254,7 +254,7 @@ export default [
         "nickname": "Logistics Warehouse FF",
         "type": VehicleType.MOTORCYCLE,
         "vehicleBrandId": 7,
-        "vehicleModelId": 16,
+        "vehicleModelId": 19,
         "status": VehicleStatus.MAINTENANCE
     },
     {
@@ -262,7 +262,7 @@ export default [
         "nickname": "Logistics Warehouse GG",
         "type": VehicleType.FOURWHEELS,
         "vehicleBrandId": 8,
-        "vehicleModelId": 17,
+        "vehicleModelId": 22,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -270,7 +270,7 @@ export default [
         "nickname": "Logistics Warehouse HH",
         "type": VehicleType.MOTORCYCLE,
         "vehicleBrandId": 8,
-        "vehicleModelId": 17,
+        "vehicleModelId": 23,
         "status": VehicleStatus.OFFLINE
     },
     {
@@ -278,7 +278,7 @@ export default [
         "nickname": "Logistics Warehouse II",
         "type": VehicleType.VAN,
         "vehicleBrandId": 8,
-        "vehicleModelId": 18,
+        "vehicleModelId": 24,
         "status": VehicleStatus.MAINTENANCE
     },
     {
@@ -286,7 +286,7 @@ export default [
         "nickname": "Logistics Warehouse JJ",
         "type": VehicleType.CAR,
         "vehicleBrandId": 8,
-        "vehicleModelId": 18,
+        "vehicleModelId": 23,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -294,7 +294,7 @@ export default [
         "nickname": "Logistics Warehouse KK",
         "type": VehicleType.FOURWHEELS,
         "vehicleBrandId": 9,
-        "vehicleModelId": 19,
+        "vehicleModelId": 25,
         "status": VehicleStatus.OFFLINE
     },
     {
@@ -302,7 +302,7 @@ export default [
         "nickname": "Logistics Warehouse LL",
         "type": VehicleType.FOURWHEELS,
         "vehicleBrandId": 9,
-        "vehicleModelId": 19,
+        "vehicleModelId": 26,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -310,7 +310,7 @@ export default [
         "nickname": "Logistics Warehouse MM",
         "type": VehicleType.MOTORCYCLE,
         "vehicleBrandId": 9,
-        "vehicleModelId": 20,
+        "vehicleModelId": 27,
         "status": VehicleStatus.MAINTENANCE
     },
     {
@@ -318,7 +318,7 @@ export default [
         "nickname": "Logistics Warehouse NN",
         "type": VehicleType.VAN,
         "vehicleBrandId": 9,
-        "vehicleModelId": 20,
+        "vehicleModelId": 27,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -326,7 +326,7 @@ export default [
         "nickname": "Logistics Warehouse OO",
         "type": VehicleType.CAR,
         "vehicleBrandId": 10,
-        "vehicleModelId": 21,
+        "vehicleModelId": 28,
         "status": VehicleStatus.OFFLINE
     },
     {
@@ -334,7 +334,7 @@ export default [
         "nickname": "Logistics Warehouse PP",
         "type": VehicleType.FOURWHEELS,
         "vehicleBrandId": 10,
-        "vehicleModelId": 21,
+        "vehicleModelId": 29,
         "status": VehicleStatus.ONLINE
     },
     {
@@ -342,7 +342,7 @@ export default [
         "nickname": "Logistics Warehouse QQ",
         "type": VehicleType.MOTORCYCLE,
         "vehicleBrandId": 10,
-        "vehicleModelId": 22,
+        "vehicleModelId": 30,
         "status": VehicleStatus.MAINTENANCE
     },
     {
@@ -350,7 +350,7 @@ export default [
         "nickname": "Logistics Warehouse RR",
         "type": VehicleType.VAN,
         "vehicleBrandId": 10,
-        "vehicleModelId": 22,
+        "vehicleModelId": 28,
         "status": VehicleStatus.ONLINE
     }
 ]
