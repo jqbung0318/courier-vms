@@ -56,8 +56,8 @@ export default async function EditVehiclePage({ params }: EditVehiclePageProps) 
         { data: { models } },
         { data: { vehicle } },
     ] = await Promise.all([
-        getApolloClient().query({ query: brandsQuery }),
-        getApolloClient().query({ query: modelsQuery }),
+        getApolloClient().query({ query: brandsQuery, context: { fetchOptions: { next: { revalidate: 60 } } } }),
+        getApolloClient().query({ query: modelsQuery, context: { fetchOptions: { next: { revalidate: 60 } } } }),
         getApolloClient().query({ query: vehicleQuery, variables: { id: parseInt(params.vehicleId) } }),
     ])
 

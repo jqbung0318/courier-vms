@@ -27,8 +27,8 @@ export default async function CreateVehiclePage() {
         { data: { brands } },
         { data: { models } }
     ] = await Promise.all([
-        getApolloClient().query({ query: brandsQuery }),
-        getApolloClient().query({ query: modelsQuery }),
+        getApolloClient().query({ query: brandsQuery, context: { fetchOptions: { next: { revalidate: 60 } } } }),
+        getApolloClient().query({ query: modelsQuery, context: { fetchOptions: { next: { revalidate: 60 } } } }),
     ])
 
     return (
