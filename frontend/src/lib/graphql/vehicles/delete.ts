@@ -24,11 +24,11 @@ const deleteVehicleMutation = gql`
 
 export default async function deleteVehicle(id: number) {
     try {
-        const { data: { vehicle }, errors } = await getClient().mutate({ mutation: deleteVehicleMutation, variables: { id } })
+        const { data: { removeVehicle }, errors } = await getClient().mutate({ mutation: deleteVehicleMutation, variables: { id } })
 
         revalidatePath('/vehicles')
 
-        return [vehicle, errors]
+        return [removeVehicle, errors]
     } catch (err) {
         console.log(err);
         throw err

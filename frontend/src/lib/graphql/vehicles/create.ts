@@ -38,11 +38,11 @@ const createVehicleMutation = gql`
 
 export default async function createVehicle(vehicleData: z.infer<typeof CreateVehicleFormSchema>) {
     try {
-        const { data: { vehicle }, errors } = await getClient().mutate({ mutation: createVehicleMutation, variables: { ...vehicleData } })
+        const { data: { createVehicle }, errors } = await getClient().mutate({ mutation: createVehicleMutation, variables: { ...vehicleData } })
 
         revalidatePath('/vehicles')
 
-        return [vehicle, errors]
+        return [createVehicle, errors]
     } catch (err) {
         console.log(err);
         throw err

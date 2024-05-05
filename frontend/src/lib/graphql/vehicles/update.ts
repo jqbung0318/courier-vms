@@ -40,11 +40,11 @@ const updateVehicleMutation = gql`
 
 export default async function updateVehicle(vehicleData: z.infer<typeof UpdateVehicleFormSchema>) {
     try {
-        const { data: { vehicle }, errors } = await getClient().mutate({ mutation: updateVehicleMutation, variables: { ...vehicleData } })
+        const { data: { updateVehicle }, errors } = await getClient().mutate({ mutation: updateVehicleMutation, variables: { ...vehicleData } })
 
         revalidatePath('/vehicles')
 
-        return [vehicle, errors]
+        return [updateVehicle, errors]
     } catch (err) {
         console.log(err);
         throw err

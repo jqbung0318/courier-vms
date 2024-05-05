@@ -36,11 +36,8 @@ export default function UpdateMaintenanceRecord({ record, vehicle }: { record: V
 
         return toast({
             title: "Update maintenance record submitted:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-                </pre>
-            )
+            description: `Maintenance record for vehicle ${record.vehicle.plateNo} has been updated ${record.scheduledAt}. (ID: ${record.id})`
+
         })
     }
 

@@ -36,11 +36,7 @@ export default function CreateMaintenanceRecordForm({ vehicles }: { vehicles: Ve
 
         return toast({
             title: "Create maintenance record submitted:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-                </pre>
-            )
+            description: `Maintenance record for vehicle ${record.vehicle.plateNo} has been created ${record.scheduledAt}. (ID: ${record.id})`
         })
     }
 

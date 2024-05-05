@@ -29,11 +29,7 @@ export function UpdateVehicleForm({ vehicle, brands, models }: { vehicle: Vehicl
 
         return toast({
             title: "Update vehicle submitted:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-                </pre>
-            )
+            description: `Vehicle with plate ${vehicle.plateNo} has been updated. (Vehicle ID: ${vehicle.id})`
         })
     }
 
