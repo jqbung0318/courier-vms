@@ -9,6 +9,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: DEVELOPMENT
     command: npm run dev
     volumes:
       - .:/app

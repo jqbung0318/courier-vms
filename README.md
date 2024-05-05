@@ -4,8 +4,11 @@ This monorepo consist of 2 packages:
 - frontend: vehicle management dashboard
 - backend: API server & business logic
 
-Each of the service has their own docker compose file. A All-in-One(AIO) docker compose file is in progress.
+Each of the service has their own docker compose file. A All-in-One(AIO). Please refer to the docker file for the setup. ENV setup can be done by copy the local to staging folder.
 
+## Moving Forward...
+- properly utilising graphql calls as client side rendering
+- build nextjs for productino optimise webpage
 
 # Original Question
 

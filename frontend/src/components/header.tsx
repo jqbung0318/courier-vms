@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/theme-provider";
 
-export default function Header(props) {
+export default function Header(props: any) {
     return (
         <header className="flex h-[60px] items-center border-b px-4 md:px-6">
             <Button className="mr-4 lg:hidden" size="icon" variant="outline">

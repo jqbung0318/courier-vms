@@ -6,9 +6,9 @@ import { toast } from "../../use-toast"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-export default function DeleteConfirmDialog(props) {
+export default function DeleteConfirmDialog(props: any) {
     const router = useRouter()
-    const vehicleIds = props.selectedRow.rows.map(item => item.original.id)
+    const vehicleIds: number[] = props.selectedRow.rows.map((item: { original: { id: any } }) => item.original.id)
     const [dialogOpened, setDialogOpen] = useState(false)
 
     const handleOnclick = async () => {

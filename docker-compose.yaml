@@ -1,0 +1,71 @@
+volumes:
+  staging_postgres_data: {}
+
+networks:
+  courier-vms-network:
+    name: staging_courier-vms-network
+
+services:
+  postgres:
+    image: courier-vms-db
+    container_name: staging-courier-vms-db
+    build:
+      context: backend
+      dockerfile: compose/postgres/Dockerfile
+    volumes:
+      - staging_postgres_data:/var/lib/postgresql/data
+      - ./backend/snapshots:/backups:rw
+    networks:
+      - courier-vms-network
+    ports:
+      - "5432:5432"
+    env_file:
+      - backend/.envs/staging/.postgres
+
+  backend:
+    depends_on:
+      - postgres
+    image: staging-courier-vms-backend
+    container_name: courier-vms-backend
+    build:
+      context: backend
+      dockerfile: compose/backend/Dockerfile
+      target: PRODUCTION
+    command: node dist/src/main.js
+    volumes:
+      - /app/node_modules
+      # - ./backend/.envs/staging/.env:/app/.env
+    env_file:
+      - ./backend/.envs/staging/.env
+    networks:
+      - courier-vms-network
+    ports:
+      - "3001:3001"
+
+  frontend:
+    depends_on:
+      - postgres
+      - backend
+    image: staging-courier-vms-frontend
+    container_name: courier-vms-frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      target: DEVELOPMENT
+    command: npm run dev
+    volumes:
+      - /app/node_modules
+    networks:
+      - courier-vms-network
+    ports:
+      - "3000:3000"
+
+  tunnel:
+    depends_on:
+      - backend
+      - frontend
+    image: cloudflare/cloudflared
+    container_name: courier-vms-tunnel
+    command: tunnel --no-autoupdate run
+    env_file:
+      - ./backend/.envs/staging/.env
