@@ -4,6 +4,7 @@ import { CreateMaintenanceRecordFormSchema } from "@/lib/schema";
 import { z } from "zod";
 import { getClient } from "../server-side";
 import { gql } from "@apollo/client";
+import { revalidatePath } from "next/cache";
 
 const createMaintenaceRecordMutation = gql`
     mutation createMaintenanceRecord (
@@ -37,6 +38,8 @@ const createMaintenaceRecordMutation = gql`
 export default async function createMaintenanceRecord(recordData: z.infer<typeof CreateMaintenanceRecordFormSchema>) {
     try {
         const { data: { createMaintenance }, errors } = await getClient().mutate({ mutation: createMaintenaceRecordMutation, variables: { ...recordData } })
+
+        revalidatePath('/maintenance')
 
         return [createMaintenance, errors]
     } catch (err) {

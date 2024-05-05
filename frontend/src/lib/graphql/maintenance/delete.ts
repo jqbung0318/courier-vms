@@ -1,5 +1,6 @@
 "use server"
 
+import { revalidatePath } from "next/cache";
 import { getClient } from "../server-side";
 import { gql } from "@apollo/client";
 
@@ -26,6 +27,8 @@ const deleteMaintenanceRecordMutation = gql`
 export default async function deleteMaintenanceRecord(id: number) {
     try {
         const { data: { removeMaintenance }, errors } = await getClient().mutate({ mutation: deleteMaintenanceRecordMutation, variables: { id } })
+
+        revalidatePath('/maintenance')
 
         return [removeMaintenance, errors]
     } catch (err) {

@@ -4,10 +4,12 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogT
 import deleteVehicle from "@/lib/graphql/vehicles/delete"
 import { toast } from "../../use-toast"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 export default function DeleteConfirmDialog(props) {
     const router = useRouter()
     const vehicleIds = props.selectedRow.rows.map(item => item.original.id)
+    const [dialogOpened, setDialogOpen] = useState(false)
 
     const handleOnclick = async () => {
         await Promise.all(
@@ -15,6 +17,7 @@ export default function DeleteConfirmDialog(props) {
         )
 
         router.refresh()
+        setDialogOpen(false)
 
         return toast({
             title: "Vehicle deleted."
@@ -22,7 +25,7 @@ export default function DeleteConfirmDialog(props) {
     }
 
     return (
-        <Dialog>
+        <Dialog open={dialogOpened} onOpenChange={setDialogOpen} >
             <DialogTrigger asChild>
                 <Button
                     variant="destructive"

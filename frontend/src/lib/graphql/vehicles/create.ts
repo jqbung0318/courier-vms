@@ -4,6 +4,7 @@ import { CreateVehicleFormSchema } from "@/lib/schema";
 import { z } from "zod";
 import { getClient } from "../server-side";
 import { gql } from "@apollo/client";
+import { revalidatePath } from "next/cache";
 
 const createVehicleMutation = gql`
     mutation createVehicle (
@@ -38,6 +39,8 @@ const createVehicleMutation = gql`
 export default async function createVehicle(vehicleData: z.infer<typeof CreateVehicleFormSchema>) {
     try {
         const { data: { vehicle }, errors } = await getClient().mutate({ mutation: createVehicleMutation, variables: { ...vehicleData } })
+
+        revalidatePath('/vehicles')
 
         return [vehicle, errors]
     } catch (err) {
